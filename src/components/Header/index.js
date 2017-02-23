@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import { withRouter } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import './Header.css'
 
 class Header extends Component {
@@ -11,15 +10,16 @@ class Header extends Component {
   handleChange = event => {
     this.setState({ filter: event.target.value })
     this.props.filterFunction(event.target.value)
-
   };
 
   handleSubmit = event => {
-    if (this.state.filter !== '' && this.props.location.pathname !== '/search') {
+    if (
+      this.state.filter !== '' && this.props.location.pathname !== '/search'
+    ) {
       this.props.push('/search')
     }
     event.preventDefault()
-  }
+  };
 
   render () {
     return (
@@ -52,7 +52,7 @@ class Header extends Component {
                     onChange={this.handleChange}
                   />
                 </label>
-                <input type="submit" value="" style={{ display: 'none' }}/>
+                <input type='submit' value='' style={{ display: 'none' }} />
               </form>
             </li>
           </ul>

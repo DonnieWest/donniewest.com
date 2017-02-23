@@ -23,7 +23,7 @@ export default class extends Component {
     this.setState({ filter })
   };
 
-  render() {
+  render () {
     return (
       <div className='App'>
         <Router>
@@ -44,7 +44,9 @@ export default class extends Component {
                 <Route
                   exact
                   path='/search'
-                  component={() => <Search posts={posts} filter={this.state.filter} />}
+                  component={() => (
+                    <Search posts={posts} filter={this.state.filter} />
+                  )}
                 />
                 {posts.map(post => (
                   <Route
