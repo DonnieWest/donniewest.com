@@ -1,0 +1,27 @@
+
+@media screen and (min-width: 768px) {
+  .newsletter {
+    margin: 0 10em;
+    padding: 1em;
+  }
+}
+
+.newsletter {
+  background-color: black;
+  color: white;
+  text-align: center;
+  border-radius: 30px;
+  margin: 1em;
+}
+
+.newsletter .subscribe {
+  background-color: grey;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  padding: 0.5em;
+  margin: 0.5em;
+}
