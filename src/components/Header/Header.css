@@ -22,9 +22,13 @@
 
 .header .links {
   flex: 1 1 auto;
-  display: flex;
+  display: none;
   flex-direction: row;
   align-content: space-between;
+}
+
+.header .links:first-child {
+  display: flex;
 }
 
 .header .links .logo {
