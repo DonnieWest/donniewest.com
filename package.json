@@ -16,6 +16,7 @@
     "hexo-generator-json-content": "^3.0.1",
     "markdown-it": "^8.3.0",
     "nodemon": "^1.11.0",
+    "prep": "^1.5.1",
     "prettier": "^0.18.0",
     "react-app-rewire-preact": "^0.1.2",
     "react-app-rewired": "^0.6.3",
@@ -38,7 +39,7 @@
   },
   "scripts": {
     "start": "npm run build-backend && react-app-rewired start",
-    "build": "npm run build-backend && react-app-rewired build && sw-precache --root='build/' --static-file-globs='build/**/!(*map*)'",
+    "build": "npm run build-backend && react-app-rewired build && prep ./build && sw-precache --root='build/' --static-file-globs='build/**/!(*map*)'",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "new": "hexo generate post",
