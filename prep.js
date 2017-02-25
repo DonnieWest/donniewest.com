@@ -9,7 +9,7 @@ exports.default = () => ({
     width: 1440,
     height: 900,
   },
-  https: false,
+  https: true,
   hostname: 'https://donniewest.com',
   minify: true,
 })
