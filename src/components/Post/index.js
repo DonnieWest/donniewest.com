@@ -1,5 +1,6 @@
 import React from 'react'
 import dateFormatter from '../../utils/dateFormatter'
+import './Post.css'
 
 export default ({ post }) => (
   <div>
