@@ -1,6 +1,8 @@
 const posts = require('./src/posts.json')
 
 const routes = posts.map(post => `/${post.slug}`);
+routes.push('/archive');
+routes.push('/');
 
 exports.default = () => ({
   routes,
