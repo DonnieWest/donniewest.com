@@ -7,7 +7,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.24.0",
-    "babel-eslint": "^7.1.1",
+    "babel-eslint": "^7.2.0",
     "babel-plugin-module-resolver": "^2.5.0",
     "babel-preset-react-app": "^2.2.0",
     "git-directory-deploy": "^1.5.1",
@@ -21,13 +21,13 @@
     "react-app-rewire-preact": "^0.1.2",
     "react-app-rewired": "^0.6.5",
     "react-scripts": "0.9.5",
-    "standard": "^9.0.1",
+    "standard": "^9.0.2",
     "sw-precache": "^5.1.0"
   },
   "dependencies": {
     "hexo-renderer-marked": "^0.2.11",
     "preact": "^7.2.0",
-    "preact-compat": "^3.14.1",
+    "preact-compat": "^3.14.3",
     "react-router-dom": "4.0.0"
   },
   "standard": {
