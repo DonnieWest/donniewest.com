@@ -16,9 +16,8 @@ Programming is a discipline where one learns to communicate clearly one's intent
 
 I've been told my entire life that I'm a very intelligent individual, but it's incredible that people ignore the most **damning** characteristic about me: I'm lazy. I lack the grit that's so necessary to carry out any semblance of success in my life and all the while have been praised about it.
 
-{% blockquote Salvador Dalí %}
-Intelligence without amibition is a bird without wings
-{% endblockquote %}
+> Intelligence without amibition is a bird without wings
+> -- <cite>Salvador Dalí</cite>
 
 Programming will be my means of instilling this discipline within me.
 
@@ -39,9 +38,8 @@ The average Missouri college graduate (where I live) leaves school with [$23,030
 
 - My value is not determined by a degree
 
-{% blockquote Mike Rowe http://foxnewsinsider.com/2013/08/04/mike-rowe-dirty-jobs-alternative-college-degree Fox News Interview %}
-“I don’t care if you work for McDonald’s. […] If you show up early, if you stay late, if you volunteer for the hard stuff, you’re going run that organization.”
-{% endblockquote %}
+> “I don’t care if you work for McDonald’s. […] If you show up early, if you stay late, if you volunteer for the hard stuff, you’re going run that organization.”
+> -- <cite> Mike Rowe [Fox News Interview](http://foxnewsinsider.com/2013/08/04/mike-rowe-dirty-jobs-alternative-college-degree)</cite>
 
   My value is determined by the grit I wish to instill in myself.
 

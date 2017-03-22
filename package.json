@@ -10,22 +10,24 @@
     "babel-eslint": "^7.2.0",
     "babel-plugin-module-resolver": "^2.5.0",
     "babel-preset-react-app": "^2.2.0",
+    "change-case": "^3.0.1",
+    "excerpt-html": "^1.2.0",
     "git-directory-deploy": "^1.5.1",
-    "hexo": "^3.2.2",
-    "hexo-generator-feed": "^1.2.0",
-    "hexo-generator-json-content": "^3.0.1",
+    "gray-matter": "^2.1.1",
+    "highlightjs": "^9.10.0",
     "markdown-it": "^8.3.1",
+    "markdown-it-footnote": "^3.0.1",
     "nodemon": "^1.11.0",
     "prep": "^1.6.0",
     "prettier": "^0.22.0",
     "react-app-rewire-preact": "^0.1.2",
     "react-app-rewired": "^0.6.5",
     "react-scripts": "0.9.5",
+    "rss": "^1.2.2",
     "standard": "^9.0.2",
     "sw-precache": "^5.1.0"
   },
   "dependencies": {
-    "hexo-renderer-marked": "^0.2.11",
     "preact": "^7.2.0",
     "preact-compat": "^3.14.3",
     "react-router-dom": "4.0.0",
@@ -39,15 +41,14 @@
     ]
   },
   "scripts": {
-    "start": "npm run build-backend && react-app-rewired start",
-    "build": "npm run build-backend && react-app-rewired build && prep ./build && sw-precache --root='build/' --static-file-globs='build/**/!(*map*)'",
+    "start": "npm run compile-posts && react-app-rewired start",
+    "build": "npm run compile-posts && react-app-rewired build && prep ./build && sw-precache --root='build/' --static-file-globs='build/**/!(*map*)'",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "new": "hexo generate post",
     "deploy": "npm run build && git-directory-deploy --directory build --branch master",
-    "watch": "nodemon -w ./backend -e .markdown,.md --exec 'npm run build-backend'",
+    "watch": "nodemon -w ./posts -e .markdown,.md --exec 'npm run compile-posts'",
     "lint": "standard",
     "format": "prettier --single-quote --write src/**/*.js && standard --fix",
-    "build-backend": "hexo generate && node ./footnotes.js && mv ./dist/content.json ./src/posts.json && mv ./dist/atom.xml ./public && rm -rf ./dist"
+    "compile-posts": "node ./compileMarkdown.js"
   }
 }
