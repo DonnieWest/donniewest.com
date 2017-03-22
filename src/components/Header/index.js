@@ -16,7 +16,7 @@ class Header extends Component {
     if (
       this.state.filter !== '' && this.props.location.pathname !== '/search'
     ) {
-      this.props.push('/search')
+      this.props.history.push('/search')
     }
     event.preventDefault()
   };
