@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import './sanitize.css'
 import './App.css'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Newsletter from './components/Newsletter'
