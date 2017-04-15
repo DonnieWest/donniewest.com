@@ -6,9 +6,9 @@
     "version": "3.2.2"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.0",
-    "babel-eslint": "^7.2.1",
-    "babel-plugin-module-resolver": "^2.5.0",
+    "babel-cli": "^6.24.1",
+    "babel-eslint": "^7.2.2",
+    "babel-plugin-module-resolver": "^2.7.0",
     "babel-preset-react-app": "^2.2.0",
     "change-case": "^3.0.1",
     "excerpt-html": "^1.2.0",
@@ -19,19 +19,19 @@
     "markdown-it-footnote": "^3.0.1",
     "nodemon": "^1.11.0",
     "prep": "^1.6.0",
-    "prettier": "^0.22.0",
+    "prettier": "^1.1.0",
     "react-app-rewire-preact": "^0.1.2",
     "react-app-rewired": "^0.6.5",
     "react-scripts": "0.9.5",
     "rss": "^1.2.2",
-    "standard": "^9.0.2",
+    "standard": "^10.0.2",
     "sw-precache": "^5.1.0"
   },
   "dependencies": {
-    "preact": "^7.2.1",
+    "preact": "^8.1.0",
     "preact-compat": "^3.14.3",
-    "react-router-dom": "4.0.0",
-    "rrc": "^0.9.0"
+    "react-router-dom": "4.1.1",
+    "rrc": "^0.10.1"
   },
   "standard": {
     "parser": "babel-eslint",
