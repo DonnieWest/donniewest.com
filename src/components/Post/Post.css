@@ -46,6 +46,12 @@
 .article-entry:after {
   clear: both;
 }
+.article-entry ul li {
+  list-style-type: disc;
+}
+.article-entry ol li {
+  list-style-type: disc;
+}
 .article-entry table {
   line-height: 1.6em;
 }
