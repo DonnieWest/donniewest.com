@@ -2,15 +2,13 @@
   "name": "ReactBlog",
   "version": "0.1.0",
   "private": true,
-  "hexo": {
-    "version": "3.2.2"
-  },
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-eslint": "^7.2.2",
     "babel-plugin-module-resolver": "^2.7.0",
     "babel-preset-react-app": "^2.2.0",
     "change-case": "^3.0.1",
+    "eslint-config-koality": "^1.0.0",
     "excerpt-html": "^1.2.0",
     "git-directory-deploy": "^1.5.1",
     "gray-matter": "^2.1.1",
@@ -20,25 +18,31 @@
     "nodemon": "^1.11.0",
     "prep": "^1.6.0",
     "prettier": "^1.1.0",
+    "prettier-eslint": "^5.1.0",
+    "prettier-eslint-cli": "^3.4.1",
     "react-app-rewire-preact": "^0.1.2",
     "react-app-rewired": "^0.6.5",
     "react-scripts": "0.9.5",
     "rss": "^1.2.2",
-    "standard": "^10.0.2",
     "sw-precache": "^5.1.0"
   },
   "dependencies": {
     "preact": "^8.1.0",
-    "preact-compat": "^3.14.3",
+    "preact-compat": "^3.15.0",
     "react-router-dom": "4.1.1",
     "rrc": "^0.10.1"
   },
-  "standard": {
+  "eslintConfig": {
     "parser": "babel-eslint",
+    "extends": "koality",
     "globals": [
       "fetch",
       "it"
-    ]
+    ],
+    "env": {
+      "browser": true,
+      "node": true
+    }
   },
   "scripts": {
     "start": "npm run compile-posts && react-app-rewired start",
@@ -47,8 +51,8 @@
     "eject": "react-scripts eject",
     "deploy": "npm run build && git-directory-deploy --directory build --branch master",
     "watch": "nodemon -w ./posts -e .markdown,.md --exec 'npm run compile-posts'",
-    "lint": "standard",
-    "format": "prettier --single-quote --write src/**/*.js && standard --fix",
+    "lint": "eslint \"src/**/*.js\"",
+    "format": "prettier-eslint --write \"src/**/*.js\"",
     "compile-posts": "node ./compileMarkdown.js"
   }
 }
