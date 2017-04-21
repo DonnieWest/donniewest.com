@@ -25,6 +25,8 @@ function convertMarkdownToJson (file) {
 
   post.content = markdown.render(post.content)
 
+  post.date = new Date(post.date)
+
   post.excerpt = excerptHtml(post.content, {
     moreRegExp: /\s*<!--\s*more\s*-->/i,
     stripTags: true,
