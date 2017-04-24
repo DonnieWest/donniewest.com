@@ -50,7 +50,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "deploy": "npm run build && git-directory-deploy --directory build --branch master",
-    "watch": "nodemon -w ./posts -e .markdown,.md --exec 'npm run compile-posts'",
+    "watch": "nodemon -w posts -e markdown compileMarkdown.js",
     "lint": "eslint \"src/**/*.js\"",
     "format": "prettier-eslint --write \"src/**/*.js\"",
     "compile-posts": "node ./compileMarkdown.js"
