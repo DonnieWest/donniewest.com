@@ -5,7 +5,9 @@ body {
   font-family: serif;
 }
 
-a, a:visited, a:active {
+a,
+a:visited,
+a:active {
   text-decoration: none;
   color: darkred;
 }
@@ -22,6 +24,7 @@ h5,
 h6 {
   font-family: sans-serif;
 }
+
 tr,
 th,
 td {
@@ -35,10 +38,12 @@ td {
   font-size: 100%;
   vertical-align: baseline;
 }
+
 ol,
 ul {
   list-style: none;
 }
+
 table {
   border-collapse: separate;
   border-spacing: 0;
@@ -46,6 +51,7 @@ table {
   color: inherit;
   font-size: inherit;
 }
+
 caption,
 th,
 td {
@@ -53,19 +59,23 @@ td {
   font-weight: normal;
   vertical-align: middle;
 }
+
 a img {
   border: none;
 }
+
 input,
 button {
   margin: 0;
   padding: 0;
 }
+
 input::-moz-focus-inner,
 button::-moz-focus-inner {
   border: 0;
   padding: 0;
 }
+
 html,
 body,
 #container {
