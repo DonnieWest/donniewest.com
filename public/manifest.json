@@ -31,7 +31,7 @@
   "start_url": "/",
   "background_color": "white",
   "theme_color": "red",
-  "display": "browser",
+  "display": "minimal-ui",
   "lang": "en-US",
   "orientation": "portrait-primary"
 }
