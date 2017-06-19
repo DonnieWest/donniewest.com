@@ -1,7 +1,7 @@
 import React from 'react';
 import './Newsletter.css';
 
-export default () => (
+export default () =>
   <div className="newsletter">
     <form
       action="https://tinyletter.com/DonnieWest"
@@ -26,5 +26,4 @@ export default () => (
       <input type="hidden" value="1" name="embed" />
       <input className="subscribe" type="submit" value="Subscribe" />
     </form>
-  </div>
-);
+  </div>;

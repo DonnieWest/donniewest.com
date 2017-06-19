@@ -17,5 +17,7 @@ function getMonthName(numberOfMonth) {
 }
 
 export default function(date) {
-  return `${getMonthName(date.getMonth())} ${date.getDate()}, ${date.getFullYear()}`;
+  return `${getMonthName(
+    date.getMonth(),
+  )} ${date.getDate()}, ${date.getFullYear()}`;
 }

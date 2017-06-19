@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './Archive.css';
 
-export default ({ posts }) => (
+export default ({ posts }) =>
   <div>
     <h1>Posts:</h1>
     <ul className="article-archive">
@@ -14,5 +14,4 @@ export default ({ posts }) => (
         );
       })}
     </ul>
-  </div>
-);
+  </div>;

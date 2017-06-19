@@ -14,7 +14,8 @@ class Header extends Component {
 
   handleSubmit = event => {
     if (
-      this.state.filter !== '' && this.props.location.pathname !== '/search'
+      this.state.filter !== '' &&
+      this.props.location.pathname !== '/search'
     ) {
       this.props.history.push('/search');
     }

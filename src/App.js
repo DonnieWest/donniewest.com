@@ -45,16 +45,15 @@ export default class extends Component {
                 <Route
                   exact
                   path="/search"
-                  component={() => (
-                    <Search posts={posts} filter={this.state.filter} />
-                  )}
+                  component={() =>
+                    <Search posts={posts} filter={this.state.filter} />}
                 />
-                {posts.map(post => (
+                {posts.map(post =>
                   <Route
                     path={`/${post.slug}`}
                     component={() => <Post post={post} />}
-                  />
-                ))}
+                  />,
+                )}
                 <Route component={NotFound} />
               </Switch>
               <Route exact path="/" component={Newsletter} />

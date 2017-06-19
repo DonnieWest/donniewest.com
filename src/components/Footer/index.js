@@ -1,7 +1,7 @@
 import React from 'react';
 import './Footer.css';
 
-export default () => (
+export default () =>
   <div className="footer">
     <br />
     <footer role="contentinfo">
@@ -12,5 +12,4 @@ export default () => (
         <a href="https://github.com/DonnieWest" rel="me">Github</a>
       </p>
     </footer>
-  </div>
-);
+  </div>;

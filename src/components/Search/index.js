@@ -12,12 +12,11 @@ function getFilteredPosts(posts, filter) {
   return posts;
 }
 
-export default ({ posts, filter }) => (
+export default ({ posts, filter }) =>
   <div>
     <h1>Search</h1>
     {getFilteredPosts(posts, filter).map(post => {
       return <PostExcerpt post={post} />;
     })}
     {getFilteredPosts(posts, filter).length === 0 ? <p>Nothing found</p> : null}
-  </div>
-);
+  </div>;

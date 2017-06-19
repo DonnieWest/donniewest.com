@@ -3,7 +3,7 @@ import dateFormatter from '../../utils/dateFormatter';
 import { ScrollIntoView } from 'rrc';
 import './Post.css';
 
-export default ({ post }) => (
+export default ({ post }) =>
   <div>
     <ScrollIntoView id="#title" />
     <div className="article-entry">
@@ -14,5 +14,4 @@ export default ({ post }) => (
       </p>
       <div dangerouslySetInnerHTML={{ __html: post.content }} />
     </div>
-  </div>
-);
+  </div>;
