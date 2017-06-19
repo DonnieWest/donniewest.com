@@ -115,7 +115,7 @@
 .article-entry blockquote {
   margin: 1.6em 20px;
   text-align: center;
-  border-left: 3px solid #ccc;
+  color: #878580;
 }
 .article-entry blockquote a {
   display: inline;
@@ -167,9 +167,7 @@
   margin-top: 0;
 }
 code {
-  background: #eee;
   font-family: monospace;
-  text-shadow: 0 1px #fff;
   padding: 0 0.3em;
   text-align: initial;
 }
@@ -177,11 +175,10 @@ code {
   background: none;
   text-shadow: none;
   padding: 0;
-  background: #0a0f14;
-  color: #d9d5ff;
 }
 .article-entry pre {
-  background: #0a0f14;
+  font-size: 70%;
+  border-left: 4px solid rgba(0, 0, 0, .0625);
   overflow: auto;
   padding: 20px;
 }
