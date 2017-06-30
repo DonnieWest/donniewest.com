@@ -46,11 +46,11 @@ class Header extends Component {
             <li className="search">
               <form onSubmit={this.handleSubmit}>
                 <label>
-                  SEARCH:{' '}
                   <input
                     type="text"
                     value={this.state.filter}
                     onChange={this.handleChange}
+                    placeholder="Search"
                   />
                 </label>
                 <input type="submit" value="" style={{ display: 'none' }} />
