@@ -29,7 +29,7 @@ class Header extends Component {
           <ul>
             <li>
               <Link className="title link" to="/">
-                <img className="logo" alt="DW" src="/images/logo.svg" />
+                <img className="logo" alt="HOME" src="/images/logo.svg" />
               </Link>
             </li>
             <li>
