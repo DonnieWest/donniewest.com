@@ -11,7 +11,7 @@
     "eslint-config-koality": "^1.0.0",
     "excerpt-html": "^1.2.0",
     "git-directory-deploy": "^1.5.1",
-    "gray-matter": "^2.1.1",
+    "gray-matter": "^3.0.2",
     "highlightjs": "^9.10.0",
     "markdown-it": "^8.3.1",
     "markdown-it-footnote": "^3.0.1",
