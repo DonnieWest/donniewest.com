@@ -12,7 +12,7 @@ There's a reason programmers love VIM: infinite customization that is consistent
 
 <!--more-->
 
-##1 - Setting up your Machine
+## 1. Setting up your Machine
 
 **Install VIM dependencies**
 
@@ -51,7 +51,7 @@ Unfortunately, VIM doesn't detect lua where Ubuntu installs it. Here's a quick w
     
     sudo ln -s /usr/bin/luajit-2.0.0-beta9 /usr/bin/luajit
 
-##2 - Getting the Code
+## 2. Getting the Code
 
 VIM is hosted on Google Code using mercurial, so we'll get the code from there.
 
@@ -60,7 +60,7 @@ VIM is hosted on Google Code using mercurial, so we'll get the code from there.
     cd vim
 
 
-##3 - Compiling it
+## 3. Compiling it
 
 Here's where the magic happens. If there's anything missing from above, you should get a quick failure so you're not missing out on anything. Checkinstall also gives us the added benefit of removing VIM with apt-get.
 
@@ -85,7 +85,7 @@ Here's where the magic happens. If there's anything missing from above, you shou
     make VIMRUNTIMEDIR=/usr/share/vim/vim74
     sudo checkinstall
 
-#4 - Set it as Default
+## 4. Set it as Default
 
 Set it as your default editor and default VIM
 
@@ -94,7 +94,7 @@ Set it as your default editor and default VIM
     sudo update-alternatives --install /usr/bin/vi vi /usr/bin/vim 1
     sudo update-alternatives --set vi /usr/bin/vim
 
-#5 - Conclusion
+## 5. Conclusion
 
 Now you can enjoy supercharged VIM - the full language and plugin support that it offers with the added benefit of using the latest ruby available on your system. 
 
