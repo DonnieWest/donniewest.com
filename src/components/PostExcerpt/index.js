@@ -9,8 +9,5 @@ export default ({ post }) =>
       <Link to={post.slug}>{post.title}</Link>
     </h2>
     <p className="date">{dateFormatter(new Date(post.date))}</p>
-    <p className="article-read-time">
-      {`${Math.ceil(post.content.split(' ').length / 200)} minutes to read`}
-    </p>
     <p>{post.excerpt}</p>
   </div>;
