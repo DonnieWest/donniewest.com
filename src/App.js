@@ -51,7 +51,7 @@ export default class extends Component {
                 {posts.map(post =>
                   <Route
                     path={`/${post.slug}`}
-                    component={() => <Post post={post} />}
+                    component={(match) => <Post post={post} jumpTo={match.location.hash} />}
                   />,
                 )}
                 <Route component={NotFound} />
