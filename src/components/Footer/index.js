@@ -6,7 +6,7 @@ export default () =>
     <br />
     <footer role="contentinfo">
       <p>
-        Website copyright © 2017 - Written by Donnie West | Follow me on{' '}
+        Website copyright ©{new Date().getFullYear()} - Written by Donnie West | Follow me on{' '}
         <a href="https://twitter.com/_donniewest" rel="me">Twitter</a>
         {' '}and{' '}
         <a href="https://github.com/DonnieWest" rel="me">Github</a>

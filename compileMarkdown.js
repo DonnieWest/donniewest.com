@@ -59,7 +59,7 @@ const feed = new RSS({
   image_url: 'https://donniewest.com/images/rss.png',
   managingEditor: 'Donnie West',
   webMaster: 'Donnie West',
-  copyright: '2017 Donnie West',
+  copyright: `${new Date().getFullYear()} Donnie West`,
   language: 'en',
   pubDate: Date.now(),
   ttl: '60'
