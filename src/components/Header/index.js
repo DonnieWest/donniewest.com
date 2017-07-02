@@ -33,10 +33,14 @@ class Header extends Component {
               </Link>
             </li>
             <li>
-              <Link className="link" to="/archive">POSTS</Link>
+              <Link className="link" to="/archive">
+                POSTS
+              </Link>
             </li>
             <li>
-              <a className="link" href="/atom.xml">RSS</a>
+              <a className="link" href="/atom.xml">
+                RSS
+              </a>
             </li>
             <li>
               <a className="link" href="https://twitter.com/_donniewest">

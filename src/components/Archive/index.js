@@ -9,7 +9,9 @@ export default ({ posts }) =>
       {posts.map(post => {
         return (
           <li>
-            <Link to={post.slug}>{post.title}</Link>
+            <Link to={post.slug}>
+              {post.title}
+            </Link>
           </li>
         );
       })}
