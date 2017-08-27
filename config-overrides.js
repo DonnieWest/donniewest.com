@@ -1,7 +1,10 @@
-const rewirePreact = require('react-app-rewire-preact')
-
 /* config-overrides.js */
 module.exports = function override (config, env) {
-  config = rewirePreact(config, env)
+  config.resolve = {
+    "alias": {
+      "react": "preact-compat",
+      "react-dom": "preact-compat"
+    }
+  }
   return config
 }
