@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Setting up your first Mastodon server"
-date: 2017-04-11 10:49:41 -0500
+date: 2017-08-22 10:49:41 -0500
 comments: true
 categories: 
 ---
@@ -53,7 +53,7 @@ cd mastodon
 To ensure we're working with stable code, we'll use git to checkout the latest release of the code. As of this writing, the latest release is v1.1.2 but you can find the latest on [Mastodon's release page](https://github.com/tootsuite/mastodon/releases).
 
 ```sh
-git checkout v1.1.2
+git checkout v1.5.1
 ```
 
 You can also just run off of the latest code from Github, but be prepared for unstable behavior and contributing back on Github with bug reports and/or code.
@@ -107,6 +107,13 @@ SECRET_KEY_BASE=secondgeneratedsecrethere
 OTP_SECRET=thirdgeneratedsecrethere
 ```
 
+Follow this with generating your VAPID keys for push notifications using `docker-compose run --rm web rake mastodon:webpush:generate_vapid_key`
+
+```
+VAPID_PRIVATE_KEY=privatekey
+VAPID_PUBLIC_KEY=publickey
+```
+
 4. Ignore SINGLE_USER_MODE
 
 This variable turns your server into Single User Mode which disables signups and causes everyone who visits your site to go automatically to your profile. We'll want this but only after we've created an account.
@@ -146,10 +153,8 @@ If you are using nano, you can now save and exit the file by typing Ctrl + O to 
 
 By default anything in Docker's filesystem that isn't mounted on your main computer is deleted when Docker is stopped. To prevent data loss, uncomment the lines in your docker-compose.yml file that define the volumes for your db and redis containers will use. 
 
-Note: Previous versions of Mastodon didn't include these lines to uncomment, so you can just add them
-
 ```yaml
-version: '2'
+version: '3'
 services:
 
   db:
@@ -204,6 +209,7 @@ This container will look at the other containers we have setup and utilize envir
       - redis
     volumes:
       - ./public/assets:/mastodon/public/assets
+      - ./public/packs:/mastodon/public/packs
       - ./public/system:/mastodon/public/system
 ```
 
@@ -225,6 +231,7 @@ Then we'll add the environment variables on the web and streaming containers so 
       - redis
     volumes:
       - ./public/assets:/mastodon/public/assets
+      - ./public/packs:/mastodon/public/packs
       - ./public/system:/mastodon/public/system
 
   streaming:
@@ -280,6 +287,7 @@ Just like the Nginx container, this utilizes environment variables to know which
       - redis
     volumes:
       - ./public/assets:/mastodon/public/assets
+      - ./public/packs:/mastodon/public/packs
       - ./public/system:/mastodon/public/system
 
   streaming:
