@@ -1,0 +1,11 @@
+{
+  "name": "ReactBlog",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "serve": "^6.0.6"
+  },
+  "scripts": {
+    "now-start": "serve ./ --single"
+  }
+}
