@@ -10,7 +10,7 @@ export default () =>
       onSubmit="window.open('https://tinyletter.com/DonnieWest', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true"
     >
       <p>
-        <p>Join my Newsletter</p>
+        <h3>Join my Newsletter</h3>
         <label htmlFor="tlemail">
           Sign up for free today and be the first to be notified on new updates
         </label>
@@ -18,7 +18,6 @@ export default () =>
       <p>
         <input
           type="text"
-          style={{ width: '140px' }}
           name="email"
           id="tlemail"
         />
