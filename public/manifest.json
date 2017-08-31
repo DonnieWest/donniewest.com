@@ -30,7 +30,7 @@
   ],
   "start_url": "/",
   "background_color": "white",
-  "theme_color": "red",
+  "theme_color": "black",
   "display": "minimal-ui",
   "lang": "en-US",
   "orientation": "portrait-primary"
