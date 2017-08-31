@@ -18,17 +18,17 @@
     "markdown-it-footnote": "^3.0.1",
     "nodemon": "^1.11.0",
     "prep": "^1.6.2",
-    "prettier": "^1.5.3",
-    "prettier-eslint": "^6.4.2",
-    "prettier-eslint-cli": "^4.2.1",
-    "react-app-rewired": "^1.2.2",
-    "react-scripts": "1.0.11",
+    "prettier": "^1.6.1",
+    "prettier-eslint": "^7.1.0",
+    "prettier-eslint-cli": "^4.3.0",
+    "react-app-rewired": "^1.2.4",
+    "react-scripts": "1.0.12",
     "rss": "^1.2.2",
     "serve": "^6.0.6",
     "workbox-cli": "^2.0.0"
   },
   "dependencies": {
-    "preact": "^8.2.4",
+    "preact": "^8.2.5",
     "preact-compat": "^3.17.0",
     "react-router-dom": "4.2.2",
     "rrc": "^0.10.1"
