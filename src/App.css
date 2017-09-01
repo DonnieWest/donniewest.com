@@ -3,7 +3,7 @@
 }
 
 .App .main {
-  padding: 0 1em;
+  padding: 0 2em;
 }
 
 @media (min-width: 768px) {
@@ -11,6 +11,5 @@
     width: 800px;
     margin-right: auto;
     margin-left: auto;
-    padding: 0 30px;
   }
 }
