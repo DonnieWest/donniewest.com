@@ -12,9 +12,7 @@ export default ({ post, jumpTo }) => {
         <h1 className="article-title" id="title">
           {post.title}
         </h1>
-        <p className="date">
-          {dateFormatter(new Date(post.date))}
-        </p>
+        <p className="date">{dateFormatter(new Date(post.date))}</p>
         <div dangerouslySetInnerHTML={{ __html: post.content }} />
       </div>
     </div>
