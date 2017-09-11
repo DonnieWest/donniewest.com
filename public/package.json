@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "serve": "^6.0.6"
+    "serve": "latest"
   },
   "scripts": {
     "now-start": "serve ./ --single"
