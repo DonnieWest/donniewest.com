@@ -35,7 +35,6 @@
 
 html {
 	box-sizing: border-box; /* 1 */
-	cursor: default; /* 2 */
 	font-family: sans-serif; /* 3 */
 	line-height: 1.5; /* 3 */
 	-ms-text-size-adjust: 100%; /* 4 */
