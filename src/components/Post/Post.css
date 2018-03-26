@@ -123,7 +123,7 @@
 .article-entry blockquote footer {
   font-size: 14px;
   margin: 1.6em 0;
-  font-family: serif;
+  font-family: inherit;
 }
 .article-entry blockquote footer cite:before {
   content: "—";
@@ -167,7 +167,7 @@
   margin-top: 0;
 }
 code {
-  font-family: monospace;
+  font-family: "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace;
   padding: 0 0.3em;
   text-align: initial;
 }
