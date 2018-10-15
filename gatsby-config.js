@@ -1,10 +1,10 @@
-const mdxFeed = require("gatsby-mdx/feed");
+const mdxFeed = require('gatsby-mdx/feed')
 
 module.exports = {
   siteMetadata: {
     title: 'Donnie West',
     description: 'My Personal Blog',
-    siteUrl: 'https://donniewest.com'
+    siteUrl: 'https://donniewest.com',
   },
   plugins: [
     'gatsby-plugin-react-helmet',
@@ -13,30 +13,30 @@ module.exports = {
       resolve: 'gatsby-source-filesystem',
       options: {
         name: 'images',
-        path: `${__dirname}/src/images/`
-      }
+        path: `${__dirname}/src/images/`,
+      },
     },
     {
       resolve: 'gatsby-plugin-typography',
       options: {
         pathToConfigModule: 'src/utils/typography',
-        omitGoogleFont: false
-      }
+        omitGoogleFont: false,
+      },
     },
     {
       resolve: 'gatsby-source-filesystem',
       options: {
         name: 'pages',
-        path: `${__dirname}/src/pages/`
-      }
+        path: `${__dirname}/src/pages/`,
+      },
     },
     {
       resolve: 'gatsby-plugin-react-svg',
       options: {
         rule: {
-          include: `${__dirname}/src/assets/`
-        }
-      }
+          include: `${__dirname}/src/assets/`,
+        },
+      },
     },
     {
       resolve: 'gatsby-mdx',
@@ -46,25 +46,25 @@ module.exports = {
             resolve: 'gatsby-remark-images',
             options: {
               maxWidth: 600,
-              sizeByPixelDensity: true
-            }
+              sizeByPixelDensity: true,
+            },
           },
           {
             resolve: `gatsby-remark-prismjs`,
             options: {
-              classPrefix: "language-",
+              classPrefix: 'language-',
               inlineCodeMarker: null,
               aliases: { sh: 'bash' },
               showLineNumbers: false,
               noInlineHighlight: false,
             },
-          }
+          },
         ],
         defaultLayouts: {
           posts: require.resolve('./src/components/layout.js'),
-          default: require.resolve('./src/components/layout.js')
-        }
-      }
+          default: require.resolve('./src/components/layout.js'),
+        },
+      },
     },
     {
       resolve: 'gatsby-plugin-manifest',
@@ -75,13 +75,13 @@ module.exports = {
         background_color: '#ffffff',
         theme_color: '#2f4f4f',
         display: 'minimal-ui',
-        icon: 'src/images/logo.png'
-      }
+        icon: 'src/images/logo.png',
+      },
     },
     'gatsby-plugin-offline',
     {
       resolve: `gatsby-plugin-feed`,
-      options: mdxFeed
-    }
-  ]
+      options: mdxFeed,
+    },
+  ],
 }

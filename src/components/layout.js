@@ -42,7 +42,11 @@ export default function Layout({ children, location, pageContext }) {
             }}
           >
             {pageContext ? <h2>{pageContext.frontmatter.title}</h2> : null}
-            {pageContext ? <small>{new Date(pageContext.frontmatter.date).toLocaleDateString()}</small> : null}
+            {pageContext ? (
+              <small>
+                {new Date(pageContext.frontmatter.date).toLocaleDateString()}
+              </small>
+            ) : null}
             {children}
           </div>
           <Footer />

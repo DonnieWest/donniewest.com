@@ -1,1 +1,1 @@
-require("prism-themes/themes/prism-vs.css")
+require('prism-themes/themes/prism-vs.css')

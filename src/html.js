@@ -1,5 +1,5 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 import { injectGlobal } from 'react-emotion'
 import { rhythm } from './utils/typography'
 
