@@ -1,0 +1,532 @@
+export const frontmatter = {
+  title: 'Build your own Minimal and Scriptable Terminal',
+  draft: false,
+  date: '2017-10-24',
+}
+
+I'm a huge fan of [Unix as an IDE](https://sanctum.geek.nz/arabesque/series/unix-as-ide/) and so the terminal is the core of my computational environment: I run everything from my development tools and text editor to my chat apps and email. There are a variety of terminals out there with their own set of pros and cons, but here we'll find out how to build our own terminal from scratch and to fit our workflow precisely.
+
+> Note: This can certainly be adapted to other distros, but for the purposes of this tutorial we'll be focusing on Ubuntu and Archlinux because one is more user friendly and the other is my distro of choice. We're specifically targeting Ubuntu 17.10 and qtermwidget >= 0.7.1
+
+## Setting up your Machine
+
+Here we'll install the base packages needed to compile and write our basic terminal program. For Ubuntu, `build-essential` contains the basics for compiling your own C programs. For Archlinux it's called `base-devel`.
+
+For both distributions we'll be installing qtermwidget: this is a QT based terminal widget that we can place into any QT based application and get most of what we really want out of our terminal application. It'll do most of the heavy lifting so we can focus away from learning about escape codes[^1] and focusing on the appearance of our application.
+
+For Ubuntu
+
+```bash
+sudo apt-get install build-essential libqtermwidget5-0
+```
+
+For Archlinux
+
+```bash
+sudo pacman -S base-devel qtermwidget
+```
+
+## Programming
+
+Let's create a directory to house our project and the c++ file that will hold our code - you can name your terminal whatever you want, but I'm naming mine `minimal-term`
+
+```bash
+mkdir ~/minimal-term
+cd ~/minimal-term
+touch minimal-term.cpp
+```
+
+Open `minimal-term.cpp` with your editor of choice and add the following code
+
+```clike
+#include <QApplication>
+#include <QKeySequence>
+#include <QMainWindow>
+
+#include "qtermwidget.h"
+
+int main(int argc, char *argv[]) {
+  QApplication app(argc, argv);
+  QMainWindow *mainWindow = new QMainWindow();
+
+  QTermWidget *console = new QTermWidget();
+
+  QFont font = QApplication::font();
+  font.setFamily("Monospace");
+  font.setPointSize(12);
+
+  console->setTerminalFont(font);
+
+  QObject::connect(console, SIGNAL(finished()), mainWindow, SLOT(close()));
+
+  mainWindow->setCentralWidget(console);
+
+  mainWindow->show();
+  return app.exec();
+}
+```
+
+Let's break this down.
+
+```clike
+#include <QApplication>
+#include <QKeySequence>
+#include <QMainWindow>
+
+#include "qtermwidget.h"
+```
+
+The `#include` here is called a directive - it's a way to tell the compiler to do something specific for us at compile time. `#include` can be thought of as "include this file at this particular spot in the source code" and can be thought of as the rough equivalent of an import in C++.
+
+```clike
+int main(int argc, char *argv[]) {}
+```
+
+This is the entry point to our application, and argc and argv represent any arguments passed into our program.
+
+
+```clike
+  QApplication app(argc, argv);
+  QMainWindow *mainWindow = new QMainWindow();
+
+  QTermWidget *console = new QTermWidget();
+```
+
+Here we are creating our Application using Qt using the arguments passed into our main function, a new window to hold our application and instantiating a terminal widget for later on.
+
+
+```clike
+
+  QFont font = QApplication::font();
+  font.setFamily("Monospace");
+  font.setPointSize(12);
+
+  console->setTerminalFont(font);
+```
+
+Here we are defining the font for our terminal to use: we create a new QFont object and give it the font family that we want to use along with the size. Then we call the `setTerminalFont` method on our terminal widget instance with the QFont object. If you want to know more about the QFont object and all you can do with it, definitely check out the wonderful QT docs[^2]
+
+
+```clike
+  mainWindow->setCentralWidget(console);
+  
+  QObject::connect(console, SIGNAL(finished()), mainWindow, SLOT(close()));
+
+  mainWindow->show();
+  return app.exec();
+```
+
+Here we are officially starting our app. First we set the main widget of the main window to be our terminal. Then we "connect" the console and the main window so closing one will close the other. We call the `show()` method on the main window to see our progress.
+
+## Compiling
+
+At this point you should be able to compile your application to see your progress
+
+```bash
+g++ $(pkg-config --cflags --libs Qt5Widgets qtermwidget5) -fPIC -o minimal-term minimal-term.cpp
+```
+
+`pkg-config` here passes the appropriate flags and locations of your libraries so that `g++` knows how to properly compile your application. You should then be able to run your application with
+
+```bash
+./minimal-term 
+```
+
+> Note: Whenever I reference "compiling and running" your terminal, come back here to reference these commands
+
+It won't look very pretty and won't react to any common keybindings. Let's fix that.
+
+## Debugging
+
+A quick note here on debugging. There are various handy tools for debugging C++ apps but QT has a built in logger tool that you can use. Let's use it real quick to add a real theme to our terminal.
+
+First, add the `#include <QtDebug>` directive at the top of your file. This will allow us to use qDebug. We'll call a method on our terminal instance to get all of our color schemes and log them out using qDebug
+
+```clike
+#include <QApplication>
+#include <QKeySequence>
+#include <QMainWindow>
+
+// Add the include directive here
+
+#include <QtDebug>
+
+#include "qtermwidget.h"
+
+int main(int argc, char *argv[]) {
+  QApplication app(argc, argv);
+  QMainWindow *mainWindow = new QMainWindow();
+
+  QTermWidget *console = new QTermWidget();
+
+  QFont font = QApplication::font();
+  font.setFamily("Monospace");
+  font.setPointSize(12);
+
+  console->setTerminalFont(font);
+
+  // Add the logging statement here
+
+  qDebug() << " availableColorSchemes:" << console->availableColorSchemes();
+
+  QObject::connect(console, SIGNAL(finished()), mainWindow, SLOT(close()));
+
+  mainWindow->setCentralWidget(console);
+
+  mainWindow->show();
+  return app.exec();
+}
+```
+
+Again, we'll compile and run our application and we should see some output in the terminal of what colorschemes are available. We'll strip out our logging statements now and add the colorscheme to our terminal.
+
+
+```clike
+#include <QApplication>
+#include <QKeySequence>
+#include <QMainWindow>
+
+#include "qtermwidget.h"
+
+int main(int argc, char *argv[]) {
+  QApplication app(argc, argv);
+  QMainWindow *mainWindow = new QMainWindow();
+
+  QTermWidget *console = new QTermWidget();
+
+  QFont font = QApplication::font();
+  font.setFamily("Monospace");
+  font.setPointSize(12);
+
+  console->setTerminalFont(font);
+  // Add setting the colorscheme here. Choose whatever one suits your fancy
+  console->setColorScheme("Solarized");
+
+  QObject::connect(console, SIGNAL(finished()), mainWindow, SLOT(close()));
+
+  mainWindow->setCentralWidget(console);
+
+  mainWindow->show();
+  return app.exec();
+}
+```
+
+## Telling others what kind of terminal you're using
+
+At this point you might have noticed that the terminal isn't responding well to input. Some programs output strange characters and others just plain break. We can fix this by telling these programs what kind of terminal we're using. It turns out that qtermwidget shares quite a bit of code with Konsole - the KDE terminal. We'll go ahead and pretend to be Konsole by setting the `$TERM` environment variable using `sentenv()`.
+
+> Note: You can substitute other values here like `xterm-256color` if you'd like. You can even go crazy and write your own files that tell others about the capabilities of your terminal by running `infocmp` to get a sample config from your terminal of choice, editting the resulting output and saving it again by running `tic`. That's a bit crazy though.
+
+
+```clike
+#include <QApplication>
+#include <QKeySequence>
+#include <QMainWindow>
+
+#include "qtermwidget.h"
+
+int main(int argc, char *argv[]) {
+  QApplication app(argc, argv);
+  QMainWindow *mainWindow = new QMainWindow();
+
+  // Set the environment variable here
+  setenv("TERM", "konsole-256color", 1);
+
+  QTermWidget *console = new QTermWidget();
+
+  QFont font = QApplication::font();
+  font.setFamily("Monospace");
+  font.setPointSize(12);
+
+  console->setTerminalFont(font);
+  console->setColorScheme("Solarized");
+
+  QObject::connect(console, SIGNAL(finished()), mainWindow, SLOT(close()));
+
+  mainWindow->setCentralWidget(console);
+
+  mainWindow->show();
+  return app.exec();
+}
+```
+
+Now, after compiling and running your terminal, you should notice that the programs that were previously broken should now work. If they're still glitching, you can try the `$TERM` value of `xterm-256color` since that's something that works for a broad set of terminals, you just might be missing out on some of the power of qtermwidget that xterm doesn't have.
+
+## Keybindings
+
+One of the biggest things now missing from our terminal is some basic interactivity. We'll start by adding some keybindings. We'll do this by using Qt's built in "Signals and Slots" which allow us to connect parts of QT almost like legos.
+
+In this case, we'll connect Qtermwidget's `termKeyPressed` to a lambda function that handles the keybinding and calls appropriate methods for us. We'll start with copying text in our terminal and we'll use the standard `Ctrl+C` sequence of keys that we're used to from everywhere else
+
+
+```clike
+#include <QApplication>
+#include <QKeySequence>
+#include <QMainWindow>
+
+#include "qtermwidget.h"
+
+int main(int argc, char *argv[]) {
+  QApplication app(argc, argv);
+  QMainWindow *mainWindow = new QMainWindow();
+  setenv("TERM", "konsole-256color", 1);
+
+  QTermWidget *console = new QTermWidget();
+
+  QFont font = QApplication::font();
+  font.setFamily("Monospace");
+  font.setPointSize(12);
+
+  console->setTerminalFont(font);
+  console->setColorScheme("Solarized");
+
+
+  // Here we'll allow copying text
+  QObject::connect(console, &QTermWidget::termKeyPressed, mainWindow,
+                   [=](const QKeyEvent *key) -> void {
+                     if (key->matches(QKeySequence::Copy)) {
+                       console->copyClipboard();
+                     }
+                   });
+
+  QObject::connect(console, SIGNAL(finished()), mainWindow, SLOT(close()));
+
+  mainWindow->setCentralWidget(console);
+
+  mainWindow->show();
+  return app.exec();
+}
+```
+
+This bit of code just checks if the keys being pressed match a known Copy sequence embedded in Qt and calls the `copyClipboard` method on our terminal widget. If you compile and run it, you'll see that you can highlight text with your mouse and copy it using `Ctrl+C` - just be careful since that sequence _also_ closes the running program in the terminal.
+
+From here we'll go ahead and add pasting too.
+
+
+```clike
+#include <QApplication>
+#include <QKeySequence>
+#include <QMainWindow>
+
+#include "qtermwidget.h"
+
+int main(int argc, char *argv[]) {
+  QApplication app(argc, argv);
+  QMainWindow *mainWindow = new QMainWindow();
+  setenv("TERM", "konsole-256color", 1);
+
+  QTermWidget *console = new QTermWidget();
+
+  QFont font = QApplication::font();
+  font.setFamily("Monospace");
+  font.setPointSize(12);
+
+  console->setTerminalFont(font);
+  console->setColorScheme("Solarized");
+
+
+  QObject::connect(console, &QTermWidget::termKeyPressed, mainWindow,
+                   [=](const QKeyEvent *key) -> void {
+                     if (key->matches(QKeySequence::Copy)) {
+                       console->copyClipboard();
+                       // Now we can paste too
+                     } else if (key->matches(QKeySequence::Paste)) {
+                       console->pasteClipboard();
+                     }
+                   });
+
+  QObject::connect(console, SIGNAL(finished()), mainWindow, SLOT(close()));
+
+  mainWindow->setCentralWidget(console);
+
+  mainWindow->show();
+  return app.exec();
+}
+```
+
+While it's nice to have that, I find it even cooler to tie into other parts of our desktop. We'll demonstrate this by giving our terminal the ability to navigate in the browser to links we click on. Start by adding the `#include <QDesktopServices>` directive to the top of your file and define a method called `activateUrl` like so
+
+```clike
+void activateUrl(const QUrl &url, bool fromContextMenu) {
+  if (QApplication::keyboardModifiers() & Qt::ControlModifier ||
+      fromContextMenu) {
+    QDesktopServices::openUrl(url);
+  }
+}
+```
+
+This will allow us to `Ctrl+Click` on any URL in our terminal and have it open in a terminal. We'll need to connect it to the QtermWidget signal called `urlActivated`. 
+
+```clike
+QObject::connect(console, &QTermWidget::urlActivated, mainWindow,
+          activateUrl);
+```
+
+So our final code should look like:
+
+
+```clike
+#include <QApplication>
+
+// Add QDesktopServices
+#include <QDesktopServices>
+#include <QKeySequence>
+#include <QMainWindow>
+
+#include "qtermwidget.h"
+
+
+// Here we define the activateUrl method
+void activateUrl(const QUrl &url, bool fromContextMenu) {
+  if (QApplication::keyboardModifiers() & Qt::ControlModifier ||
+      fromContextMenu) {
+    QDesktopServices::openUrl(url);
+  }
+}
+
+int main(int argc, char *argv[]) {
+  QApplication app(argc, argv);
+  QMainWindow *mainWindow = new QMainWindow();
+  setenv("TERM", "konsole-256color", 1);
+
+  QTermWidget *console = new QTermWidget();
+
+  QFont font = QApplication::font();
+  font.setFamily("Monospace");
+  font.setPointSize(12);
+
+  console->setTerminalFont(font);
+  console->setColorScheme("Solarized");
+  console->setTerminalOpacity(0.9);
+
+  // Here we connect it all together
+  QObject::connect(console, &QTermWidget::urlActivated, mainWindow,
+                   activateUrl);
+
+  QObject::connect(console, &QTermWidget::termKeyPressed, mainWindow,
+                   [=](const QKeyEvent *key) -> void {
+                     if (key->matches(QKeySequence::Copy)) {
+                       console->copyClipboard();
+                     } else if (key->matches(QKeySequence::Paste)) {
+                       console->pasteClipboard();
+                     }
+                   });
+
+  QObject::connect(console, SIGNAL(finished()), mainWindow, SLOT(close()));
+
+
+  mainWindow->setCentralWidget(console);
+
+  mainWindow->show();
+  return app.exec();
+}
+```
+
+
+## Other small tweaks
+
+At this point we should have an extremely minimal terminal that we can shape to our heart's desires. This is how I personally use it, but there's still so much more that can be accomplished with Qt and I'll go through them here at a somewhat faster pace.
+
+```clike
+console->setTerminalOpacity(0.9);
+```
+
+We can set the transparency of our terminal using the `setTerminalOpacity` set to any value between 0 and 1.
+
+```clike
+QMenuBar *menuBar = new QMenuBar(mainWindow);
+QMenu *actionsMenu = new QMenu("Actions", menuBar);
+menuBar->addMenu(actionsMenu);
+actionsMenu->addAction("Find..", console, SLOT(toggleShowSearchBar()), QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_F));
+actionsMenu->addAction("About Qt", &app, SLOT(aboutQt()));
+mainWindow->setMenuBar(menuBar);
+```
+
+We can define custom menus from with Qt to display with our terminal. Here we add a couple actions to show a search bar and a little extra information about Qt
+
+```clike
+console->setScrollBarPosition(QTermWidget::ScrollBarRight);
+```
+
+We can set the position of the scroll bar (if we want one).
+
+```clike
+mainWindow->resize(600, 400);
+```
+
+We can resize our main window to whatever size we want.
+
+
+```clike
+foreach (QString arg, QApplication::arguments()) {
+  qDebug << arg;
+}
+```
+
+We can iterate over the arguments given to our terminal and do something with them.
+
+## Add it to my launcher
+
+At this point you're probably wondering how to add this to your application launcher like a _real application_. The first thing to do is compile your application, then we'll add it to your `$PATH`. The `$PATH` variable tells your Linux distribution where app your application binaries are and Ubuntu/Debian based distributions will automatically put your `~/bin` directory in your path if it exists. Let's move our terminal there for now
+
+```bash
+mkdir ~/bin
+cp minimal-term ~/bin
+```
+
+If you're on Archlinux, a non-Debian distro or this isn't getting picked up properly, just add the following to your `~/.profile` file
+
+```bash
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+```
+
+You should be able to launch another terminal and type `minimal-term` to get your new terminal to launch. Obviously that won't do! Launching a terminal to launch a terminal isn't the best workflow. We'll get this from your `$PATH` and into your launcher.
+
+Create a desktop file in `~/local/share/applications` like so:
+
+```bash
+touch ~/.local/share/applications/minimal-term.desktop
+```
+Open your editor of choice and enter the following into the desktop file:
+
+```
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Name=Minimal Terminal
+Comment=Use the command line
+Exec=minimal-term
+Icon=utilities-terminal
+Type=Application
+Categories=QT;System;TerminalEmulator;
+StartupNotify=true
+```
+
+After restarting your computer, you should see your application in your launcher along side your other terminals. If you want to tweak this file, the basic overview is:
+
+`Name` - the name of the application that you're defining
+`Comment` - Some additional information on the application
+`Exec` - how to launch the application
+`Icon` - The icon used. Here we're using the built in icon for terminals
+
+The rest are more advanced option that you can find out more about in [this article from Cogito Overdose](https://cogitooverdose.wordpress.com/2016/02/21/how-to-write-desktop-files-linux/)
+
+You might have to change the line that says `Exec` to point to the local filesystem path of your binary if it's not getting picked up:
+
+```
+Exec=/path/to/minimal-term
+```
+
+## Conclusion
+
+When you live in the terminal all day, it becomes worth it to have something completely custom that matches your workflow. Hopefully you've become empowered to build just that.
+
+## Extra Credits
+
+1. [This is largely adapted from the official Qtermwidget example over at their Github repository](https://github.com/lxde/qtermwidget/blob/master/example/main.cpp)
+2. I largely stole [Termite's desktop file for minimal-term's](https://github.com/thestinger/termite/blob/master/termite.desktop)
+
+[^1]: http://wiki.bash-hackers.org/scripting/terminalcodes
+[^2]: http://doc.qt.io/qt-5/qfont.html
+[^3]: https://doc.qt.io/qt-5/signalsandslots.html

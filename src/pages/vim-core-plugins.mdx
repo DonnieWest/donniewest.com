@@ -1,0 +1,253 @@
+export const frontmatter = {
+  title: "Setting up core VIM plugins",
+  date: '2018-05-20',
+  draft: true,
+}
+
+One struggle that first time VIM users encounter when using the editor is what kind of plugins to install. This post aims to be a quick and dirty guide to what I use personally and how to choose other core VIM plugins.
+
+<--more-->
+
+Prerequisites:
+
+1. A recent version of Neovim (some of this can be used within regular VIM with some effort, but I don't recommend it)
+2. Mac OSX or Linux (This could be applied to a Windows computer, but I don't have one to test)
+
+
+
+## Plugin manager
+
+If you've ever handled VIM's plugin system before, it can be quite daunting to figure out. Luckily, instead of doing all of that by hand, we can write our plugins to our `init.vim` file and have them automatically managed for us and stored in version control. The one I use, and seems to have the greater community support, is `vim-plug`. It has quite a few advanced features that won't be covered here, but you can find them in the [documentation found here](https://github.com/junegunn/vim-plug). To begin using vim-plug, we'll first create a basic init.vim in ~/.config/nvim/init.vim that has the following contents
+
+```
+" Install Vim Plug if not installed
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall
+endif
+
+call plug#begin()
+
+
+call plug#end()
+```
+
+This will automatically download and install vim-plug for you on vim launch. Plugins are added in between the calls to `plug#begin()` and `plug#end()` and adding github shorthand that looks like `Plug 'Shougo/deoplete.nvim'` which after running `:PlugInstall` would fetch the vim plugin hosted at https://github.com/Shougo/deoplete.nvim. We'll go ahead and add that to our configuration now so our init.vim should look like this:
+
+```
+" Install Vim Plug if not installed
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall
+endif
+
+call plug#begin()
+
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+
+call plug#end()
+```
+
+You'll notice that we run some commands here on your computer for you, installing both the vim plugin's dependencies and running `UpdateRemotePlugins`. This will help prevent needing to run it yourself when Deoplete updates so that you don't have to.
+
+## Autocompletion
+
+Speaking of Deoplete, it's my recommended solution for autocompletion on Neovim. If you've used Omnifuncs in VIM, you know they're a bit of a pain to use correctly and can be rather slow. Deoplete, however, is an awesome toolkit that allows you to take multiple sources of completions for your languages, query them asynchronously without blocking your editor and expose all of them to you via the same keybindings. 
+
+We'll throw in some standard Deoplete configurations while we're at it
+
+```
+" Install Vim Plug if not installed
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall
+endif
+
+call plug#begin()
+
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+
+call plug#end()
+
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_ignore_case = 1
+let g:deoplete#enable_smart_case = 1
+let g:deoplete#enable_camel_case = 1
+let g:deoplete#enable_refresh_always = 1
+let g:deoplete#max_abbr_width = 0
+let g:deoplete#max_menu_width = 0
+```
+
+This essentially allows Deoplete to run at startup and turns on some basic niceties for completion around how to case completions and making sure your completions aren't stale. Feel free to reference [Deoplete's excellent documentation](https://github.com/Shougo/deoplete.nvim/blob/master/doc/deoplete.txt) to find out more details or uncover any other settings that might be interesting to you.
+
+## Look up definitions
+
+Ctags is a tool that outputs a tags file that can then be read by VIM for jumping to definition and other cool tricks. Ctags is pretty universally installable by most OS's, but traditionally it has had rather poor support for Javascript. We'll start by installing [universal ctags](http://docs.ctags.io/en/latest/) which is simply a fork of the exuberant ctags project with support for the latest version of Javascript. We'll also install vim-gutentags to enable automatic generation of ctags by VIM upon opening a project. Drop this in your plugins section of your init.vim:
+
+```
+Plug 'ludovicchabant/vim-gutentags'
+```
+After running `:PlugInstall` and opening a project, you should find a tags file in the root of your project. To jump to definition using ctags just hover over a defined variable or import statement and type `<C-]>`. 
+
+## Language Server Protocol
+
+While Deoplete does have built in completions for your buffer, what really makes it shine is the aforementioned language specific completions. You can find quite a few of them in the [documentation under EXTERNAL SOURCES](https://github.com/Shougo/deoplete.nvim/blob/master/doc/deoplete.txt) but I specifically recommend [Autozimu's Language Client Neovim](https://github.com/autozimu/LanguageClient-neovim)
+
+LanguageClient-neovim specifically implements the Language Server Protocol (LSP) which allows people to implement tooling for their favorite language as a server that can then share that work across all editors that implement the client protocol. You can find out more at this [community maintained site](http://langserver.org/) or [Microsoft's site](https://microsoft.github.io/language-server-protocol/) on the subject. Top notch projects like VSCode implement their own version of this and large languages such as Typescript and Rust implement their own first class servers that take advantage of this protocol. 
+
+Besides the awesome tooling, this allows you to only add small configurations to LanguageClient-neovim instead of adding keybindings and language specific configuration to your VIM config for every new language you wish to write in. Let's add the example from the documentation to our config to add Rust support:
+
+
+```
+" Install Vim Plug if not installed
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall
+endif
+
+call plug#begin()
+
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+
+call plug#end()
+
+" Required for operations modifying multiple buffers like rename.
+set hidden
+
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_ignore_case = 1
+let g:deoplete#enable_smart_case = 1
+let g:deoplete#enable_camel_case = 1
+let g:deoplete#enable_refresh_always = 1
+let g:deoplete#max_abbr_width = 0
+let g:deoplete#max_menu_width = 0
+
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    \ }
+
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+```
+
+Not sure about you, but I prefer using somewhat standard commands for my language features. I'll change the hover command to actually work on hover and look up the definition using `Ctrl + ]` just like you would use whenever using Ctag based lookup. You can change the last few lines from above to the following:
+
+
+```
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    \ }
+
+autocmd CursorHold * :call LanguageClient_textDocument_hover()<CR>
+" or *.rs if you only want it to invoke on rust files
+nnoremap <silent> <C-]> :call LanguageClient_textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+" or add autocmd FileType rust to the front of these to only use this on rust files like so
+" autocmd FileType rust nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+" Using the autocmd syntax can also allow you to selectively override the ctags lookup vs the LSP lookup for the languages that you're utilizing.
+```
+
+## Linting and Error checking
+
+Linting and Error checking are musts for most languages, and we can gain this automatically in VIM using Neomake. Neomake bundles most language linting systems and enables generally sane defaults out of the box. You can either invoke Neomake on write manually using autocmds like so
+
+```
+autocmd! BufWritePost * Neomake
+```
+
+or you can use Neomake's method of configuring this by using their automake functions
+
+```
+" When writing a buffer (no delay).
+call neomake#configure#automake('w')
+```
+
+You can also enable or disable a specific linter for the language you're working with by using `neomake_{language}_enabled_makers` global variable which can be used like so:
+
+
+```
+let g:neomake_javascript_enabled_makers = ['eslint']
+```
+
+You can also configure the warning and error signs for your linter like so:
+
+```
+let g:neomake_warning_sign = {
+  \ 'text': '?',
+  \ 'texthl': 'WarningMsg',
+  \ }
+
+let g:neomake_error_sign = {
+  \ 'text': 'X',
+  \ 'texthl': 'ErrorMsg',
+  \ }
+
+```
+
+Be sure to checkout their [Readme](https://github.com/neomake/neomake/blob/master/README.md) and their [docs]*(https://github.com/neomake/neomake/blob/master/doc/neomake.txt) for the complete set of options (or how to change this configuration if on battery vs on AC).
+
+
+## Code Formatting
+
+Most projects have some form of coding standards, and the best way to adhere to those standards are with standard tools that will format your code for you. The best way to integrate with them into Neovim is the tool Neoformat. It can be installed like so:
+
+```
+Plug 'sbdchd/neoformat'
+```
+
+After that, as long as you're using their built in formatters, formatting the entire file or a selection can be done with 
+
+```
+:Neoformat
+```
+
+Or the `:Neoformat` command followed by the specific formatter that you want to use. For more information, check out either their [Readme](https://github.com/sbdchd/neoformat/blob/master/README.md) or [doc](https://github.com/sbdchd/neoformat/blob/master/doc/neoformat.txt) which will teach you have to specify your own custom filetypes and how to format on save.
+
+## Project Wide Search
+
+My favorite tool to explore and search my codebase is the lovely FZF. For those unacquinted with FZF, it's a sort of terminal toolbox that can find lines of code or filenames extremely efficiently. You can also pipe in arbitrary data and use FZF as a sort of terminal GUI for manipulating that data. In VIM, FZF is mainly used as both a way to find a specific file in your filesystem or to grep for specific lines of code in your codebase. Installation is as follows:
+
+```
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+```
+
+And once done, you can run `:FZF` to search through all the files in and below the current directory. Selecting one  opens it as a buffer for you to immediately work on. For those familiar with it, this command is VERY similar to [Ctrl-P](https://github.com/ctrlpvim/ctrlp.vim) and so I map it to the same binding for my setup:
+
+```
+nnoremap <C-p> :FZF<ENTER>
+```
+
+But FZF can also grep through your entire project for a specific string. If you have The Silver Searcher installed, you can use the built in `:Ag` command to search or make your own custom command for Git Grep like so:
+
+```
+command! -bang -nargs=* GGrep
+  \ call fzf#vim#grep(
+  \   'git grep --line-number '.shellescape(<q-args>), 0,
+  \   { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, <bang>0)
+```
+
+Either way, running the command should open a buffer below the screen that will allow you to type in arbitrary characters and allow you to filter to a specific line in your code. Selecting the line will open the file in your buffer right to the line that you're looking for.
+
+FZF can do far more than this - check out both the [docs for the terminal version](https://github.com/junegunn/fzf/blob/master/README.md) and for the [vim version](https://github.com/junegunn/fzf.vim/blob/master/README.md) in order to unlock it's full potential.
+
+## Conclusion
+
+And there you have it - a Neovim instance that can do most of the things that an IDE can do:
+
+* Autocompletion
+* Project definition lookup
+* Integrate with native language tooling
+* Linting
+* Auto formatting
+
+All from one extensible editor.
