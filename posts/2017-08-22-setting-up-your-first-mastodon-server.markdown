@@ -1,0 +1,378 @@
+---
+layout: post
+title: "Setting up your first Mastodon server"
+date: 2017-08-22 10:49:41 -0500
+comments: true
+categories: 
+---
+
+Mastodon is a relatively young social network that aims to be a privacy concious, federated Twitter. Most people opt to join one of the larger servers ([tooter.today](http://tooter.today) can help find one if you want) but you and I are not most people. We like our privacy and our self hosted services, so, we're going to setup a personal Mastodon server that ticks off all the boxes:
+
+- Single user
+- SSL protected
+- Email ready
+
+This guide assumes some basic knowledge of Linux and DNS, but I'll try to be as descriptive as possible for people who are going into this blind. If you have any questions feel free to contact me!
+
+## Setting up a VPS
+
+Here I'm going to use Digital Ocean's $10 Droplet, but feel free to substitute it with whever VPS provider you would like as long as the server you choose includes _at least_ 1 GB of RAM. Thankfully, Digital Ocean provides "One-click Apps" which has decent defaults out of the box for various apps. For us, we'll select one that has Docker built in on top of Ubuntu 16.04 LTS to speed things up but you can follow [the official docs](https://docs.docker.com/compose/install/) to get yourself up and going on other VPS providers. Just be sure to install both Docker and docker-compose as we'll be using them throughout this guide.
+
+When configuring your server, ignore block storage and choose the region closest to you ([Cloudharmony](https://cloudharmony.com/speedtest-for-digitalocean:compute) can help you figure out shortest ping times if you want to get super precise). For additional options you can choose to backup your server if you're interested in the additional security and cost, but be certain to choose IPV6 and Monitoring as they're free and easy upgrades that will provide a lot of value. I also recommend adding an SSH key ([Digital Ocean's official docs](https://www.digitalocean.com/community/tutorials/how-to-use-ssh-keys-with-digitalocean-droplets) explain how to set up your SSH keys really well) but that's up to you. 
+
+## Domain
+
+For starting up your own server, you'll also need a domain to call your own. Just like email, Mastodon servers identify you by a username at a particular domain. If you don't have one already, I recommend Hover.com (here's my [referral link](https://hover.com/ZY6RVTkV)) but feel free to use whatever you're comfortable with. Sign up for an account, purchase your domain and go into your domain's DNS settings. For your Mastodon server you'll need two domains:
+
+- The main domain that you'll access your server from
+  - Presumably this will either be at the actual purchased domain aka https://mymastodonserver.com or a subdomain like https://social.mymastodonserver.com
+- The access point for Mastodon's streaming server
+  - Presumably at https://streaming.mymastodonserver.com
+
+For each of these domains you'll need:
+
+- A Record pointing to the IPV4 IP Address of your VPS server
+- AAAA Record pointing to the IPV6 IP Address of your VPS server
+
+Set those up in your console and we can confirm that this is fully functional once your server is up and running.
+
+## Email over SMTP
+
+Mastodon has built in support for SMTP so that you can get emails when you signup and for other activity on your server. This isn't strictly necessary, but is a good practice to do especially if you want to eventually open up your server to others. If you don't have your own SMTP service, I recommend [Mailgun](https://mailgun.com). After signing up, they will guide you through setting up your SMTP service and link it with your domain provider so you can send emails from your domain name. If you don't end up using this, I'll point out below where you might do something a bit different.
+
+## Setup your VPS
+
+Now we'll actually get going with the Mastodon specific parts of this guide. First we'll SSH into our server and clone down the Mastodon repository from Github.
+
+```sh
+ssh root@<your ip address here>
+git clone https://github.com/tootsuite/mastodon.git
+cd mastodon
+```
+
+To ensure we're working with stable code, we'll use git to checkout the latest release of the code. As of this writing, the latest release is v1.1.2 but you can find the latest on [Mastodon's release page](https://github.com/tootsuite/mastodon/releases).
+
+```sh
+git checkout v1.5.1
+```
+
+You can also just run off of the latest code from Github, but be prepared for unstable behavior and contributing back on Github with bug reports and/or code.
+
+## Configure Mastodon
+
+The primary method of configuring Mastodon is through environment variables. Thankfully, we can get this done automatically for us via a .env file and Mastodon provides some sane template files for us to go off of. First, we'll copy the existing template to work off of and edit the file. You'll likely have a choice between vim and nano and nano is a great one for beginners
+
+```sh
+cp .env.production.sample .env.production
+nano .env.production
+```
+
+Let's break down this file into the specific parts that you should edit.
+
+
+1. Ignore the REDIS and DB env variables
+
+
+These are some relatively sane defaults out of the box so we won't touch the database or Redis configuration for now.
+
+```
+# Service dependencies
+REDIS_HOST=redis
+REDIS_PORT=6379
+DB_HOST=db
+DB_USER=postgres
+DB_NAME=postgres
+DB_PASS=
+DB_PORT=5432
+```
+
+2. Edit LOCAL_DOMAIN
+
+Here we'll fill in the main domain name for your Mastodon server, which will probably be something like https://mymastodonserver.com or https://social.mymastodonserver.com
+
+```
+# Federation
+LOCAL_DOMAIN=<Your domain here>
+LOCAL_HTTPS=true
+```
+
+3. Generate app secrets
+
+We'll generate some secrets so that Mastodon can properly encrypt our communications. Run `docker-compose run --rm web rake secret` three times and fill in each of the application secret fields with a generated secret
+
+```
+# Application secrets
+PAPERCLIP_SECRET=firstgeneratedsecrethere
+SECRET_KEY_BASE=secondgeneratedsecrethere
+OTP_SECRET=thirdgeneratedsecrethere
+```
+
+Follow this with generating your VAPID keys for push notifications using `docker-compose run --rm web rake mastodon:webpush:generate_vapid_key`
+
+```
+VAPID_PRIVATE_KEY=privatekey
+VAPID_PUBLIC_KEY=publickey
+```
+
+4. Ignore SINGLE_USER_MODE
+
+This variable turns your server into Single User Mode which disables signups and causes everyone who visits your site to go automatically to your profile. We'll want this but only after we've created an account.
+
+```
+# Registrations
+# Single user mode will disable registrations and redirect frontpage to the first profile
+# We will uncomment this once our user is created
+#SINGLE_USER_MODE=true
+```
+
+5. Email
+
+If you have an SMTP server (such as the Mailgun account you might have created earlier) then fill this out with your account information. If you don't, leave these unchanged.
+
+```
+# E-mail configuration
+# Note: Mailgun and SparkPost (https://sparkpo.st/smtp) each have good free tiers
+SMTP_SERVER=smtp.mailgun.org
+SMTP_PORT=587
+SMTP_LOGIN=<Your Login here>
+SMTP_PASSWORD=<Your password here>
+SMTP_FROM_ADDRESS=notifications@example.com
+```
+
+6. Streaming API Domain
+
+Earlier you setup a subdomain for your Mastodon streaming API. Be sure to fill this field in with that domain with the https protocol. I personally encountered issues when I didn't do this on my server but this is theoretically optional.
+
+```
+STREAMING_API_BASE_URL=https://<your domain here>
+```
+
+If you are using nano, you can now save and exit the file by typing Ctrl + O to Save and Ctrl + X to exit.
+
+## Persist changes in Docker
+
+By default anything in Docker's filesystem that isn't mounted on your main computer is deleted when Docker is stopped. To prevent data loss, uncomment the lines in your docker-compose.yml file that define the volumes for your db and redis containers will use. 
+
+```yaml
+version: '3'
+services:
+
+  db:
+    restart: always
+    image: postgres:alpine
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+
+  redis:
+    restart: always
+    image: redis:alpine
+    volumes:
+      - ./redis:/data
+```
+
+## Add nginx
+
+By default Mastodon communicates on ports 3000 and 4000, which means that if the server was currently running and we visited our domain we would have to go to http://mymastodonserver.com:3000 in order to see anything. That's rather annoying, so we'll use a reverse proxy server to route traffic into each of our containers when we visit the appropriate domain. First we'll setup the container that will do this for us
+
+Add the following lines to the end of your docker-compose file
+
+```yaml
+  nginx-proxy:
+    image: jwilder/nginx-proxy:latest
+    container_name: nginx-proxy
+    ports:
+      - "443:443"
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+      - /data/certs:/etc/nginx/certs:ro
+      - /data/config/nginx-proxy/html/:/usr/share/nginx/html
+      - /data/config/nginx-proxy/vhost.d/:/etc/nginx/vhost.d
+      - /data/config/nginx-proxy/conf.d/:/etc/nginx/conf.d
+    restart: always
+    environment:
+      - ENABLE_IPV6=true
+```
+
+This container will look at the other containers we have setup and utilize environment variables that have been defined to properly determine where to route traffic. We could do that in the .env.production file but I would rather keep all of the configuration for Docker in our docker-compose.yml file. Before that, we'll change the web container to only expose port 3000 instead of opening that port to the outside world.
+
+```yaml
+  web:
+    restart: always
+    build: .
+    env_file: .env.production
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    expose:
+      - "3000"
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./public/assets:/mastodon/public/assets
+      - ./public/packs:/mastodon/public/packs
+      - ./public/system:/mastodon/public/system
+```
+
+Then we'll add the environment variables on the web and streaming containers so Nginx knows where the route internet traffic. Add a `environment` config to each container with the variables `VIRTUAL_HOST` defined. In this example we'll also define the optional environment variable `VIRTUAL_PORT` that points to the exposed port on each container.
+
+```yaml
+  web:
+    restart: always
+    build: .
+    env_file: .env.production
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    environment:
+      - VIRTUAL_HOST=<your main mastodon server domain name>
+      - VIRTUAL_PORT=3000
+    expose:
+      - "3000"
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./public/assets:/mastodon/public/assets
+      - ./public/packs:/mastodon/public/packs
+      - ./public/system:/mastodon/public/system
+
+  streaming:
+    restart: always
+    build: .
+    env_file: .env.production
+    command: npm run start
+    environment:
+      - VIRTUAL_HOST=<your streaming server domain name>
+      - VIRTUAL_PORT=4000
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+      - redis
+```
+
+At this point, if we were to launch the servers we would be able to view them at http://mymastodonserver.com. Unfortunately we would not be able to view them using https because we don't have a certificate to encrypt traffic. Since we don't want people spying on our server, we'll do that next.
+
+## Add SSL
+
+Let's Encrypt is a free and automatic way to get SSL certificates and just like Nginx there's a container that will handle this automatically for us. Append the following lines to your docker-compose.yml file to create that container.
+
+```yaml
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: letsencrypt
+    volumes_from:
+      - nginx-proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /data/certs:/etc/nginx/certs:rw
+```
+
+Just like the Nginx container, this utilizes environment variables to know which container is matched to which SSL certificate. Add the `LETSENCRYPT_HOST` and `LETSENCRYPT_EMAIL` variables to our environment block. `LETSENCRYPT_EMAIL` in this case refers to your personal email.
+
+
+```yaml
+  web:
+    restart: always
+    build: .
+    env_file: .env.production
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    environment:
+      - VIRTUAL_HOST=<your main mastodon server domain name>
+      - VIRTUAL_PORT=3000
+      - LETSENCRYPT_HOST=<your main mastodon server domain name>
+      - LETSENCRYPT_EMAIL=<your email>
+    expose:
+      - "3000"
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./public/assets:/mastodon/public/assets
+      - ./public/packs:/mastodon/public/packs
+      - ./public/system:/mastodon/public/system
+
+  streaming:
+    restart: always
+    build: .
+    env_file: .env.production
+    command: npm run start
+    environment:
+      - VIRTUAL_HOST=<your streaming server domain name>
+      - VIRTUAL_PORT=4000
+      - LETSENCRYPT_HOST=<your streaming server domain name>
+      - LETSENCRYPT_EMAIL=<your email>
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+      - redis
+```
+
+## Build and start the server
+
+We're almost done!
+
+Mastodon requires us to do some final setup that needs to be run each time Mastodon is updated or setup for the first time. We'll setup the database, precompile the assets to be served and actually start our server for the first time.
+
+
+```sh
+docker-compose run --rm web rails db:migrate
+docker-compose run --rm web rails assets:precompile
+docker-compose up # or docker-compose up --force-recreate if updating Mastodon
+```
+
+This will take some time, but after it finishes you should see a stream of logs from Docker that details the instantiation of each container. Wait about 15 minutes after that starts and you should have access to your Mastodon instance at your domain! Once you've confirmed this works, you can exit the logs by typing Ctrl + C and then run your server in the background by running
+
+```sh
+docker-compose up -d
+```
+
+This will prevent your server from being killed whenever you close your terminal.
+
+If you have the unfortunate case that your server isn't up and running at your domain, look back over this guide and confirm that all of your configurations are correct. If you don't see what's wrong, it's possible that there's a problem with this guide or it's outdated. Look over the [Official Mastodon docs](https://github.com/tootsuite/mastodon#running-with-docker-and-docker-compose) and their [Production Guide](https://github.com/tootsuite/documentation/blob/master/Running-Mastodon/Production-guide.md) and be sure to let me know if you see any problems.
+
+## Sign up and make an Admin
+
+Now you can go to your domain and signup for an account. Once you've entered your desired username and password you should receive an email to confirm your account. If you didn't:
+
+1. You didn't setup SMTP
+2. SMTP is misconfigured - Check your settings against your SMTP provider and check your logs via `docker-compose logs` to see if you can find the error
+3. You're using something like Google Cloud Platform that blocks SMTP from going out - check your VPS specific guides on how to fix
+
+In order to confirm your user without an email run:
+
+```sh
+docker-compose run web rails mastodon:confirm_email USER_EMAIL=<your email here>
+```
+
+To make yourself an admin, run the following command
+
+```sh
+docker-compose run web rails mastodon:make_admin USERNAME=<your username>
+```
+
+Making yourself an admin allows some greater control over your server as well as some additional diagnostics that may help if you're encountering an error.
+
+
+## Single User Mode
+
+Final step is to enable Single User Mode. Modify your .env.production file and uncomment this line to enable it
+
+```
+SINGLE_USER_MODE=true
+```
+
+Now any user that visits your server will be automatically sent to your profile and signups will be prevented. Congratulations! You now have a fully functional server!
+
+## Conclusion
+
+Hopefully this was a helpful guide to getting you setup with your own selfhosted Mastodon instance. You can now enjoy totaly prviacy and control over your own account. If you have any feedback or questions, feel free to ping me at donniewest@social.donniewest.com 
+
+## Credits
+
+- [The official Mastodon docs on Github](https://github.com/tootsuite/documentation)
+  - Kudos to Mastodon for the ever-improving documentation
+- [Nolan Lawson's Beginner guide to Mastodon](https://github.com/nolanlawson/resources-for-mastodon-newbies)
+  - This resource guide was indispensable for when I started
+  - Nolan Laweson is super helpful to beginners, be sure to toot him
+- [Ummjackson's Mastodon Guide](https://github.com/ummjackson/mastodon-guide)
+  - Awesome general purpose and unopinionated guide for getting a Mastodon server up and running

@@ -1,0 +1,32 @@
+
+@media screen and (min-width: 768px) {
+  .newsletter {
+    margin: 0 10em;
+  }
+}
+
+.newsletter {
+  background-color: black;
+  color: white;
+  text-align: center;
+  margin: 0em;
+  padding: 1em;
+}
+
+.newsletter .subscribe {
+  background-color: white;
+  border: none;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  padding: 0.5em;
+  margin: 0.5em;
+}
+
+.newsletter #tlemail {
+  background-color: white;
+  color: black;
+  width: 100%;
+}

@@ -1,0 +1,15 @@
+.App {
+  text-align: initial;
+}
+
+.App .main {
+  padding: 0 2em;
+}
+
+@media (min-width: 768px) {
+  .App .main {
+    width: 800px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}

@@ -1,0 +1,97 @@
+.header h1 a {
+  color: black;
+  text-decoration: none;
+}
+
+.header {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: space-between;
+  align-items: flex-end;
+  background-color: black;
+  padding: 10px 0px;
+}
+
+.header .title {
+  font-size: 18px;
+}
+
+.header .links {
+  flex: 1 1 auto;
+  display: none;
+  flex-direction: row;
+  align-content: space-between;
+}
+
+.header .links:first-child {
+  display: flex;
+}
+
+.header .links .logo {
+  height: 0.9em;
+  vertical-align: baseline;
+  filter: invert(100%);
+}
+
+.header ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-content: center;
+  justify-content: space-around;
+}
+
+.header .links .link {
+  text-decoration: none;
+  margin: 0 0 0 1em;
+  color: white;
+  flex-grow: 1;
+}
+
+.header .link:visited {
+  color: white;
+}
+
+.search {
+  margin: auto 0;
+  flew-grow: 100;
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.search input {
+  width: 15em;
+  margin-right: 1em;
+  font-size: 20px;
+  line-height: 1em;
+  background: white url('/images/search.svg') left no-repeat;
+  background-size: 1.5em;
+  border: 1px solid #d3d3d3;
+  padding: 2px 0px 2px 1.5em;
+  transition: all 0.7s ease 0s;
+}
+
+.search input:focus {
+  width: 17em;
+  outline: none;
+}
+
+@media screen and (max-width: 750px) {
+  .search input {
+    width: 90vw;
+    transition: none !important;
+  }
+
+  .search input:focus {
+    width: 90vw;
+  }
+}
+
