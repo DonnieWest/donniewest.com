@@ -29,6 +29,11 @@ injectGlobal`
     padding-left: ${rhythm(3 / 4)};
     margin-left: -${rhythm(3 / 4)};
   }
+
+  :not(pre) > code[class*="language-"] {
+    border: none;
+    background: inherit;
+  }
 `
 
 export default class HTML extends React.Component {
