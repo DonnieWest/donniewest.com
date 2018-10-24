@@ -14,10 +14,10 @@ Here we'll install the base packages needed to compile and write our basic termi
 
 For both distributions we'll be installing qtermwidget: this is a QT based terminal widget that we can place into any QT based application and get most of what we really want out of our terminal application. It'll do most of the heavy lifting so we can focus away from learning about escape codes[^1] and focusing on the appearance of our application.
 
-For Ubuntu
+For Ubuntu[^2]
 
 ```bash
-sudo apt-get install build-essential libqtermwidget5-0
+sudo apt-get install build-essential libqtermwidget5-0-dev
 ```
 
 For Archlinux
@@ -104,7 +104,7 @@ Here we are creating our Application using Qt using the arguments passed into ou
   console->setTerminalFont(font);
 ```
 
-Here we are defining the font for our terminal to use: we create a new QFont object and give it the font family that we want to use along with the size. Then we call the `setTerminalFont` method on our terminal widget instance with the QFont object. If you want to know more about the QFont object and all you can do with it, definitely check out the wonderful QT docs[^2]
+Here we are defining the font for our terminal to use: we create a new QFont object and give it the font family that we want to use along with the size. Then we call the `setTerminalFont` method on our terminal widget instance with the QFont object. If you want to know more about the QFont object and all you can do with it, definitely check out the wonderful QT docs[^3]
 
 
 ```clike
@@ -528,5 +528,6 @@ When you live in the terminal all day, it becomes worth it to have something com
 2. I largely stole [Termite's desktop file for minimal-term's](https://github.com/thestinger/termite/blob/master/termite.desktop)
 
 [^1]: http://wiki.bash-hackers.org/scripting/terminalcodes
-[^2]: http://doc.qt.io/qt-5/qfont.html
-[^3]: https://doc.qt.io/qt-5/signalsandslots.html
+[^2]: Thanks to [Nick Desaulniers](https://github.com/nickdesaulniers) who noticed I was missing the [dev package for Ubuntu](https://github.com/DonnieWest/donniewest.com/issues/1)
+[^3]: http://doc.qt.io/qt-5/qfont.html
+[^4]: https://doc.qt.io/qt-5/signalsandslots.html
