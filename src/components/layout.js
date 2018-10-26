@@ -5,6 +5,33 @@ import { StaticQuery, graphql } from 'gatsby'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { rhythm } from '../utils/typography'
+import style from 'react-emotion'
+
+const PageWrapper = style.div`
+  margin: 0 auto;
+  max-width: ${rhythm(22)};
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: ${rhythm(1.5)} ${rhythm(3 / 4)};
+
+  p > code[class*="language-"] {
+    white-space: unset;
+  }
+
+  div > blockquote {
+    font-style: italic;
+    border-left: darkslategrey solid ${rhythm(1 / 4)};
+    padding-left: ${rhythm(3 / 4)};
+    margin-left: -${rhythm(3 / 4)};
+  }
+
+  :not(pre) > code[class*="language-"] {
+    border: none;
+    background: inherit;
+  }
+`
 
 export default function Layout({ children, location, pageContext }) {
   return (
@@ -30,17 +57,7 @@ export default function Layout({ children, location, pageContext }) {
             <html lang="en" />
           </Helmet>
           <Header title={data.site.siteMetadata.title} />
-          <div
-            style={{
-              margin: '0 auto',
-              maxWidth: rhythm(22),
-              padding: `${rhythm(1.5)} ${rhythm(3 / 4)}`,
-              flex: '1 0 auto',
-              display: 'flex',
-              flexDirection: 'column',
-              width: '100%',
-            }}
-          >
+          <PageWrapper>
             {pageContext ? <h2>{pageContext.frontmatter.title}</h2> : null}
             {pageContext ? (
               <small>
@@ -48,7 +65,7 @@ export default function Layout({ children, location, pageContext }) {
               </small>
             ) : null}
             {children}
-          </div>
+          </PageWrapper>
           <Footer />
         </div>
       )}

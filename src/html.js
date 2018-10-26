@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { injectGlobal } from 'react-emotion'
-import { rhythm } from './utils/typography'
 
 injectGlobal`
   a,
@@ -17,22 +16,6 @@ injectGlobal`
 
   a {
     color: darkslategrey;
-  }
-
-  p > code[class*="language-"] {
-    white-space: unset;
-  }
-
-  div > blockquote {
-    font-style: italic;
-    border-left: darkslategrey solid ${rhythm(1 / 4)};
-    padding-left: ${rhythm(3 / 4)};
-    margin-left: -${rhythm(3 / 4)};
-  }
-
-  :not(pre) > code[class*="language-"] {
-    border: none;
-    background: inherit;
   }
 `
 
@@ -52,7 +35,7 @@ export default class HTML extends React.Component {
         <body {...this.props.bodyAttributes}>
           {this.props.preBodyComponents}
           <div
-            key={`body`}
+            key={'body'}
             id="___gatsby"
             dangerouslySetInnerHTML={{ __html: this.props.body }}
           />

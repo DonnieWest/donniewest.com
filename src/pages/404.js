@@ -6,7 +6,10 @@ export default function Missing({ location }) {
   return (
     <Layout location={location}>
       <h2>Not Found</h2>
-      <p>That page is missing, please check out the <Link to="/">home page</Link> for the article you're missing</p>
+      <p>
+        Sorry, we can't find that page :/ please check out the{' '}
+        <Link to="/">home page</Link> to find it or some other articles
+      </p>
     </Layout>
   )
 }
