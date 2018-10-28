@@ -18,6 +18,8 @@ const PageWrapper = style.div`
 
   p > code[class*="language-"] {
     white-space: unset;
+    border: none;
+    background: inherit;
   }
 
   div > blockquote {
@@ -25,11 +27,6 @@ const PageWrapper = style.div`
     border-left: darkslategrey solid ${rhythm(1 / 4)};
     padding-left: ${rhythm(3 / 4)};
     margin-left: -${rhythm(3 / 4)};
-  }
-
-  :not(pre) > code[class*="language-"] {
-    border: none;
-    background: inherit;
   }
 `
 
