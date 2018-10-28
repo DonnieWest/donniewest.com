@@ -1,0 +1,67 @@
+==================================================================
+https://keybase.io/donniewest
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://donniewest.com
+  * I am donniewest (https://keybase.io/donniewest) on keybase.
+  * I have a public key with fingerprint 445C F588 8F03 3CB9 0D78  CF73 859A 3318 2395 673D
+
+To do so, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "eldest_kid": "0113baccae5e1d68bb3e0b75e36eee49678d09fa9ec074023604c96f6c177badd6990a",
+            "fingerprint": "445cf5888f033cb90d78cf73859a33182395673d",
+            "host": "keybase.io",
+            "key_id": "859a33182395673d",
+            "kid": "0113baccae5e1d68bb3e0b75e36eee49678d09fa9ec074023604c96f6c177badd6990a",
+            "uid": "bfe293cca1bf28af42da2b50f3135d00",
+            "username": "donniewest"
+        },
+        "service": {
+            "hostname": "donniewest.com",
+            "protocol": "https:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1456373191,
+    "expire_in": 157680000,
+    "prev": "dcec3c67606ab5d856f41f2931b87c46182bedb22bf49aa34510853422a30a61",
+    "seqno": 11,
+    "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: GnuPG v2
+
+owGtUltIFUEYPmrH1O4XzDALVrqZyuzOzuzuoYfoIY1MjMqIqNPM7uxxveyey6qJ
+HLsYlhCiFZlUb5FSEVpEFhRR0oN2NEEqKiF6CbtQGERGRLNST/XYvAzzz3f5/4+/
+fU6KLy2ps2n+sY7UzTeShiaor3w4PtYoUMdoEAKNQhWbvli1wWJusMoyhIAARBFS
+ouuEISYaWKUUMkAVxCBmjMkaVlQDaCbRmA4UGUgQA1nXsIl1UVEoMQysaYAI+YJp
+2SEWDUct2+Wysox0E6mqagIIdaoBQ1F1U4Eq0giEoipBDWEFGpxY4cQ8Bm+Okhgr
+tBxe44/gdHv/wP/nvmun5ajJJA1yOZGakkpMWTKIRBEwoQiRAYAHjLGoTWoYRxuO
+bVusnqcoxPMFXq+zdOZF683yF6ZQd2o4Pxx1XEd3qvlfheuGYwGP6zaEPXA9o8Hf
+MkFq2QbPkjPqWDRmObYQEDlSdy1PV5QRhgoUNTFfYAfCVpQFLQ+BFKwCfjwfVuf5
+62yvDnWsYIAJRYaKsCmLJp9SpKqiy5iHSplBJYmaskYIlJEIVARlSSIQECwK3mQR
+2+Hi3MslIS4as0I2cWujTIhntCYtm+FLSvOl+pO9NfNlpM//s3uLr6f5zsJ3j/Oe
+f729u3hWKKfgTV/F2MrUeNej1Se1utKHRUIkWz00L0POax6P7O+o7CroarYGr018
+SFycHGystAM3BwrnZfpzj0xOvC/ZUjqySl77bEPFpbaZCI00qu19W9Z8vla1vWTs
+02vpZsat/t6mPfvKfvT2v126pHPugaFupWbRpsr1k2X9Uwtx75177taPK8cHl28M
+n5md3pr5xH96p3vQbT5RNfBKibSs7hmN1LYk+hf4w09vgL27LuTfH13b0LN0+OWK
+rd0t34o72dSDrMdtV04l2kp25GZ9kW4niq6AAXL+O3qhDh0lOcmG0DD357qU8uS2
+lInsy9vO5R2+e/X46C8=
+=n1a2
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/donniewest
+
+==================================================================

@@ -50,8 +50,19 @@ export default function Layout({ children, location, pageContext }) {
             flexDirection: 'column',
           }}
         >
-          <Helmet title={data.site.siteMetadata.title} meta={[]}>
+          <Helmet title={data.site.siteMetadata.title}>
             <html lang="en" />
+            <meta charSet="utf-8" />
+            <meta name="author" content="Donnie West" />
+            <link
+              rel="pingback"
+              href="https://webmention.io/donniewest.com/xmlrpc"
+            />
+            <link
+              rel="webmention"
+              href="https://webmention.io/donniewest.com/webmention"
+            />
+            <link rel="canonical" href="https://donniewest.com" />
           </Helmet>
           <Header title={data.site.siteMetadata.title} />
           <PageWrapper>
