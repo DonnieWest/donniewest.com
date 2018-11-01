@@ -1,0 +1,68 @@
+export const frontmatter = {
+  title: "Why you should still use Neovim",
+  date: '2018-10-27',
+  draft: false,
+}
+
+Two years ago Vim 8 was released. It was the first major version of Vim in ten years and aimed to bring the project up to speed with Neovim (a modernized Vim fork) with new features such as:
+
+- Asynchronous plugin features (Jobs, Timers, Channels, JSON support)
+- Vimscript Lambdas
+- Built-in package manager
+- Built-in terminal
+- Better defaults without a config file
+
+These features narrowed the differences between the projects and as a result many plugins that were Neovim-only ended up supporting both. To those not steeped in the Vim community or who are stuck with the upstream Vim project, it might not be apparent at all what there is to gain by switching to Neovim. Let's clear that up and see why you should still expend the extra effort to use Neovim wherever you are.
+
+
+### Plugin System
+
+By far, the best feature in Neovim is the RPC based plugin system or as Neovim calls them "remote plugins". To take a page out of Neovim's documentation:
+
+> Any programming language may be used
+to extend Nvim without changes to Nvim itself. This is achieved with remote
+plugins, coprocesses that have a direct communication channel (via |RPC|) with
+the Nvim process.
+
+> Even though these plugins run in separate processes they can call, be called,
+and receive events just as if the plugin's code were executed in the main
+process.
+
+For example, adding python plugin support is as simple as installing the requisite `python-neovim` package for your operating system. This same procedure can be done for _any arbitrary language_, and even includes support for older Vim-style plugins (with the minor exception of [lua support](https://github.com/neovim/neovim/wiki/FAQ#can-i-use-lua-based-vim-plugins-eg-neocomplete)). To ensure that your configuration is correct, run Neovim's built-in `:CheckHealth` command and it will notify you in case of any misconfiguration. You can find a list of these hosts [in the Neovim wiki](https://github.com/neovim/neovim/wiki/Related-projects#api-clients) though some might require a host plugin installed as well.
+
+By contrast, all languages Vim supports must be compiled into the editor itself. Personally, I have had issues with my operating system's package manager, including builds of Vim that were not compiled with core languages that plugins needed to run. On Ubuntu, I have even written guides on how to [compile Vim from source to get the language/plugin support I needed](/supercharged-vim-built-from-source). This can be a frustrating experience for people new to Vim.
+
+#### Different Front-Ends
+
+One interesting aspect of Neovim's RPC support is that developers can create new front-ends for Neovim that are outside of the terminal. Some amazing examples of these front-ends are projects such as [Oni](https://www.onivim.io/) to build an out of the box experience that is like VSCode but with the familiarity of Vim. Another project is [ActualVim](https://github.com/lunixbochs/actualvim) which brings true Vim bindings within the Sublime Text editor by leveraging Neovim behind the scenes. You can see other current projects like these at [the Neovim wiki](https://github.com/neovim/neovim/wiki/Related-projects#gui) and we will see more awesome projects using this feature as it matures and awareness grows.
+
+### Sane Defaults
+
+Out of the box, Neovim has better defaults than upstream Vim (check out the [Neovim docs](https://neovim.io/doc/user/vim_diff.html#nvim-defaults)). This allows you to trim down your configuration and care less about silly things like whether your terminal is fast enough for `ttyfast` or whether your terminal supports cursor shaping.
+
+To be fair, Vim _does_ implement some of the default settings, but only if you do not have a configuration file in place. This makes the experience better if you are SSH'ing into a server running Vim 8 or if you only utilize Vim enough to edit files occasionally on the command line. Since Vim cherishes backwards compatibility, using your own configuration requires something like [Tim Pope's vim-sensible](https://github.com/tpope/vim-sensible) and for you to keep track of all the other cases where Vim makes compromises for legacy platforms.
+
+### Better configuration
+
+In addition to giving us better defaults, Neovim has also made it easier to configure common use cases that are quite a bit more difficult to configure on stock Vim.
+
+Here are side-by-side configurations in Neovim vs Vim:
+
+| Feature           | Neovim              | Vim           |
+| ----------------- |:-------------------:| -------------:|
+| Color Support     | `set termguicolors` for True Color, otherwise should be automatically detected  | Using obscure terminal escape sequences such as `set t_Co=256` or equivalent for terminal color support |
+| Cursor Shaping    | `guicursor` across everything  |  Obscure terminal escape sequences such as `let &t_SI =` or `guicursor` in GVim |
+| Clipboard Support | Install OS specific tool such as `xsel` or `pbcopy`  |  `clipboard=unnamed` or `clipboard=unnamedplus ` |
+| Config Location   | The Standard XDG directory (generally `~/.config/nvim`) | Non-Standard `~/.vim` or `~/.vimrc` |
+
+The Neovim settings are more straightforward and requires less effort to keep track of how to configure all platforms. Anecdotally, these settings are better documented as solutions in the Neovim Wiki than the assortment of resources one would have to pull the Vim configurations from.
+
+### The Future
+
+Because of Neovim's open roadmap, we can see the bright future ahead for Neovim such as:
+
+- [Built-in LSP support](https://github.com/neovim/neovim/pull/6856) coming in 0.4
+- [Better Externalized UI](https://github.com/neovim/neovim/pull/5686)
+- [Improved TUI](https://github.com/neovim/neovim/pull/6619)
+
+Neovim has an excellent relationship with upstream Vim - they pull in newer patches and features from the upstream project and submit their own. By embracing all that makes Vim awesome, while continuing to innovate, the Neovim project will continue to progress and hold its edge over Vim. That's why you should use Neovim as your Vim of choice.
