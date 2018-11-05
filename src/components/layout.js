@@ -66,7 +66,7 @@ export default function Layout({ children, location, pageContext }) {
           </Helmet>
           <Header title={data.site.siteMetadata.title} />
           <PageWrapper>
-            {pageContext ? <h2>{pageContext.frontmatter.title}</h2> : null}
+            {pageContext ? <h1>{pageContext.frontmatter.title}</h1> : null}
             {pageContext ? (
               <small>
                 {new Date(pageContext.frontmatter.date).toLocaleDateString()}

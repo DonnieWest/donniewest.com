@@ -1,14 +1,23 @@
 import React from 'react'
 import Logo from '../assets/logo.svg'
 import Search from '../assets/search.svg'
-import { scale, rhythm } from '../utils/typography'
+import typography, { scale, rhythm } from '../utils/typography'
 import styled, { css } from 'react-emotion'
 import { Link } from 'gatsby'
 
-const CenterHeader = styled.h1`
+const { options } = typography
+
+const CenterHeader = styled.p`
   @media (max-width: 600px) {
     display: none;
   }
+
+  font-weight: ${options.headerWeight};
+  font-size: ${rhythm(1)};
+  font-family: ${options.headerFontFamily.join(', ')};
+  color: ${options.headerColor};
+  line-height: ${options.headerLineHeight};
+  text-rendering: optimizeLegibility;
 `
 
 const StyledLink = styled(Link)`
