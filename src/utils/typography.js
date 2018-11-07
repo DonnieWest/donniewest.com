@@ -3,7 +3,7 @@ import Typography from 'typography'
 const typography = new Typography({
   title: 'Typography',
   baseFontSize: '18px',
-  baseLineHeight: 1.4,
+  baseLineHeight: 1.3,
   scaleRatio: 1.5,
   headerFontFamily: ['Lato', 'Helvetica', 'Arial', 'sans-serif'],
   bodyFontFamily: ['Georgia', 'serif'],
@@ -23,8 +23,8 @@ const typography = new Typography({
       fontSize: '16px',
       textRendering: 'optimizeLegibility',
     },
-    '@media screen and (min-width: 320px) {html{font-size: calc(16px + (24 - 16) * ((100vw - 320px) / (1000 - 320)));}}': {},
-    '@media screen and (min-width: 1000px) {html{font-size: 24px}}': {},
+    '@media screen and (min-width: 320px) {html{font-size: calc(16px + (22 - 16) * ((100vw - 320px) / (1000 - 320)));}}': {},
+    '@media screen and (min-width: 1000px) {html{font-size: 22px}}': {},
   }),
 })
 

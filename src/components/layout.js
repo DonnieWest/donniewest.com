@@ -9,7 +9,7 @@ import style from 'react-emotion'
 
 const PageWrapper = style.div`
   margin: 0 auto;
-  max-width: ${rhythm(22)};
+  max-width: ${rhythm(28)};
   flex: 1 0 auto;
   display: flex;
   flex-direction: column;
