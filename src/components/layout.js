@@ -28,6 +28,11 @@ const PageWrapper = style.div`
     padding-left: ${rhythm(3 / 4)};
     margin-left: -${rhythm(3 / 4)};
   }
+
+  table {
+    display: inline-block;
+    overflow-y: auto;
+  }
 `
 
 export default function Layout({ children, location, pageContext }) {
