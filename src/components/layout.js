@@ -5,9 +5,10 @@ import { StaticQuery, graphql } from 'gatsby'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { rhythm } from '../utils/typography'
-import style from 'react-emotion'
+import styled from '@emotion/styled'
+import { css } from '@emotion/core'
 
-const PageWrapper = style.div`
+const PageWrapper = styled.div`
   margin: 0 auto;
   max-width: ${rhythm(28)};
   flex: 1 0 auto;
@@ -16,7 +17,7 @@ const PageWrapper = style.div`
   width: 100%;
   padding: ${rhythm(1.5)} ${rhythm(3 / 4)};
 
-  p > code[class*="language-"] {
+  p > code[class*='language-'] {
     white-space: unset;
     border: none;
     background: inherit;
@@ -49,11 +50,11 @@ export default function Layout({ children, location, pageContext }) {
       `}
       render={data => (
         <div
-          style={{
-            height: '100vh',
-            display: 'flex',
-            flexDirection: 'column',
-          }}
+          css={css`
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+          `}
         >
           <Helmet title={data.site.siteMetadata.title}>
             <html lang="en" />

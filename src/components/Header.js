@@ -2,7 +2,8 @@ import React from 'react'
 import Logo from '../assets/logo.svg'
 import Search from '../assets/search.svg'
 import typography, { scale, rhythm } from '../utils/typography'
-import styled, { css } from 'react-emotion'
+import styled from '@emotion/styled'
+import { css } from '@emotion/core'
 import { Link } from 'gatsby'
 
 const { options } = typography
@@ -61,15 +62,15 @@ const IconStyle = css`
 export default function Header({ title }) {
   return (
     <div
-      style={{
-        height: size,
-        display: 'flex',
-        flexDirection: 'row',
-        margin: `${rhythm(3 / 4)}`,
-      }}
+      css={css`
+        height: ${size};
+        display: flex;
+        flex-direction: row;
+        margin: ${rhythm(3 / 4)};
+      `}
     >
       <StyledLink to="/" align="begin">
-        <Logo className={IconStyle} />
+        <Logo css={IconStyle} />
       </StyledLink>
       <StyledLink to="/">
         <CenterHeader>{title}</CenterHeader>

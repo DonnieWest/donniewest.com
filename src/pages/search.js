@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { graphql, Link } from 'gatsby'
 import { rhythm, scale } from '../utils/typography'
 import Layout from '../components/layout'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 
 const Search = styled.input`
   font-size: ${scale(1).fontSize};

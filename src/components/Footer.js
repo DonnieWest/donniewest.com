@@ -1,6 +1,6 @@
 import React from 'react'
 import { scale, rhythm } from '../utils/typography'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 
 const Container = styled.div`
   background-color: black;

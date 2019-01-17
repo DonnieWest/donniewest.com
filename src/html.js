@@ -1,23 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { injectGlobal } from 'react-emotion'
-
-injectGlobal`
-  a,
-  a:visited,
-  a:active {
-    text-decoration: none;
-    color: darkgrey;
-  }
-
-  a:hover {
-    text-decoration: underline;
-  }
-
-  a {
-    color: darkslategrey;
-  }
-`
+import { Global, css } from '@emotion/core'
 
 export default class HTML extends React.Component {
   render() {
@@ -33,6 +16,24 @@ export default class HTML extends React.Component {
           {this.props.headComponents}
         </head>
         <body {...this.props.bodyAttributes}>
+          <Global
+            styles={css`
+              a,
+              a:visited,
+              a:active {
+                text-decoration: none;
+                color: darkgrey;
+              }
+
+              a:hover {
+                text-decoration: underline;
+              }
+
+              a {
+                color: darkslategrey;
+              }
+            `}
+          />
           {this.props.preBodyComponents}
           <div
             key={'body'}
