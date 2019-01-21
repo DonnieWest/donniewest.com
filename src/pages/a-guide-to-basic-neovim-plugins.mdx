@@ -4,7 +4,7 @@ export const frontmatter = {
   draft: false
 };
 
-Setting up Vim can be a struggle: configuration is in the eclectic Vimscript language and there's a huge amount of plugins. It can be akin to setting up an IDE from scratch. In this guide, we will break down the best-in-class plugins for various aspects of Vim development so you can get started easily.
+Setting up Vim can be a struggle: configuration is in the eclectic Vimscript language and there are a huge amount of plugins. It can be akin to setting up an IDE from scratch. In this guide, we will break down the best-in-class plugins for various aspects of Vim development so you can get started easily.
 
 Prerequisites:
 
@@ -109,7 +109,7 @@ For more information, visit the [ncm2 wiki page](https://github.com/ncm2/ncm2/wi
 
 #### Bonus
 
-To get consistent tooling across all languages and all editors, take a look at the [language server protocol](https://microsoft.github.io/language-server-protocol/), or LSP for short, developed by Microsoft for their VSCode editor. Instead of each editor recreating the same functionality as all other editors, each programming language can develop an LSP compliant set of tools which each editor will automatically use.
+To get consistent tooling across all languages and all editors, take a look at the [language server protocol](https://microsoft.github.io/language-server-protocol/), or LSP for short, developed by Microsoft for their VSCode editor. Instead of each editor recreating the same functionality as all other editors, each programming language can develop an LSP-compliant set of tools which each editor will automatically use.
 
 For ncm2, I recommend [vim-lsp](https://github.com/prabirshrestha/vim-lsp). Vim-lsp has a little more configuration than the community favorite, [LanguageClient-neovim](https://github.com/autozimu/LanguageClient-neovim), but it seems to work more consistently with ncm2 with more flexibility. On the contrary, LangugageClient-neovim is faster than the all-Vimscript vim-lsp and is the only choice for Deoplete.
 
@@ -135,7 +135,7 @@ Plug 'w0rp/ale'
 call plug#end()
 ```
 
-ALE leverages a strong community to provide the most pragmatic linting framework with the broadest language support currently available for Vim. [ALE's docs](https://github.com/w0rp/ale/blob/master/doc/ale-development.txt) provide some insight into their design philosophy which includes providing default settings that are akin to the linter of other popular editors. For those that don't like the defaults, they can selectively disable any part of ALE they want, but most people will find the defaults a fantastic experience that require little customization
+ALE leverages a strong community to provide the most pragmatic linting framework with the broadest language support currently available for Vim. [ALE's docs](https://github.com/w0rp/ale/blob/master/doc/ale-development.txt) provide some insight into their design philosophy, which includes providing default settings that are akin to the linter of other popular editors. For those that don't like the defaults, they can selectively disable any part of ALE they want. Most people will find the defaults a fantastic experience that require little customization.
 
 Additionally, ALE has the largest selection of linters available out-of-the-box compared to any other linting solution (except, perhaps, syntastic which lacks asynchronous Vim support). It will automatically pick up tools that are installed on your computer for the file type you are editting and even handles hard-to-configure projects like JavaScript (which can have both global and locally installed versions of linters) like a champ.
 
@@ -309,5 +309,5 @@ command! FilesWithIcon :call Fzf_dev()
 
 ### Conclusion
 
-Setting up Vim doesn't have to be a struggle. With these best-in-class plugins you can supercharge your Vim workflow
+Setting up Vim shouldn't be a struggle. With these cutting edge plugins you can supercharge your Vim workflow.
 
