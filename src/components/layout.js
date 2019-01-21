@@ -78,6 +78,7 @@ export default function Layout({ children, location, pageContext }) {
                 {new Date(pageContext.frontmatter.date).toLocaleDateString()}
               </small>
             ) : null}
+            <br />
             {children}
           </PageWrapper>
           <Footer />
