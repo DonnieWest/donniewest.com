@@ -34,6 +34,10 @@ const PageWrapper = styled.div`
     display: inline-block;
     overflow-y: auto;
   }
+
+  br {
+    margin-bottom: ${rhythm(1)};
+  }
 `
 
 export default function Layout({ children, location, pageContext }) {
