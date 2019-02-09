@@ -83,5 +83,7 @@ module.exports = {
       resolve: 'gatsby-plugin-feed',
       options: mdxFeed,
     },
+    'gatsby-plugin-sitemap',
+    'gatsby-plugin-netlify', // make sure to put last in the array
   ],
 }
