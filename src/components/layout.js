@@ -23,7 +23,7 @@ const PageWrapper = styled.div`
     background: inherit;
   }
 
-  div > blockquote {
+  > blockquote {
     font-style: italic;
     border-left: darkslategrey solid ${rhythm(1 / 4)};
     padding-left: ${rhythm(3 / 4)};
