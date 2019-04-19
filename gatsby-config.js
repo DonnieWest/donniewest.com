@@ -38,6 +38,7 @@ module.exports = {
         },
       },
     },
+    'gatsby-plugin-sharp',
     {
       resolve: 'gatsby-mdx',
       options: {
